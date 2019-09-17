@@ -1,6 +1,10 @@
-#include <string> // string
 #include <memory> // unique_ptr
+#include <string> // string
 #include <vector> // vector
+
+#define MEMORY
+#define STRING
+#define VECTOR
 
 /// ExprAST - Base class for all expression nodes
 class ExprAST

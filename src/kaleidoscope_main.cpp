@@ -1,5 +1,11 @@
-#include "lexer.h"
-#include <iostream>
+#ifndef LEXER_H
+#include "lexer.h"	// gettok()
+#define LEXER_H
+#endif // !LEXER_H
+#ifndef IOSTREAM
+#include <iostream>	// std::count, std::endl
+#define IOSTREAM
+#endif // !IOSTREAM
 
 void test_lexer();
 

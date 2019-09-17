@@ -1,7 +1,12 @@
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
+#include <ctype.h>	// isspace(), isalpha(), isalnum(), isdigit(),
+#include <stdio.h>	// getchar()
+#include <stdlib.h>	// strtod()
+#include <string>	// string
+
+#define CTYPE_H
+#define STDIO_H
+#define STDLIB_H
+#define STRING
 
 // the lexer returns tokens [0-255] if it is an unknown character, otherwise one
 // of these for known things
