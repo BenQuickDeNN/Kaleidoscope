@@ -1,11 +1,16 @@
 #include "lexer.h"
 #include <iostream>
 
+void test_lexer();
 
 int main()
 {
-	//printf("tok = %d, iden = %s, val = %f\r\n", gettok(), IdentifierStr, NumVal);
+	test_lexer();
+	return 0;
+}
+
+void test_lexer()
+{
 	int tok = gettok();
 	std::cout << "tok = " << tok << ", iden = " << IdentifierStr << ", val = " << NumVal << std::endl;
-	return 0;
 }
