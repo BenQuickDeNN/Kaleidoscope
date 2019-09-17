@@ -1,5 +1,6 @@
 #include <string> // string
 #include <memory> // unique_ptr
+#include <vector> // vector
 
 /// ExprAST - Base class for all expression nodes
 class ExprAST
@@ -32,6 +33,44 @@ class BinaryExprAST :public ExprAST
 	std::unique_ptr<ExprAST> LHS, RHS;
 
 public:
-	BinaryExprAST(char op, std::unique_ptr<ExprAST> LHS, std::unique_ptr<ExprAST> RHS)
-		: Op(op), LHS(std::move(LHS)), RHS(std::move(RHS))
+	BinaryExprAST(char op, std::unique_ptr<ExprAST> LHS, 
+		std::unique_ptr<ExprAST> RHS)
+		: Op(op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
+};
+
+/// CallExprAST - Expression class for function calls.
+class CallExprAST :public ExprAST
+{
+	std::string Callee;
+	std::vector<std::unique_ptr<ExprAST>> Args;
+
+public:
+	CallExprAST(const std::string &Callee,
+		std::vector<std::unique_ptr<ExprAST>> Args)
+		: Callee(Callee), Args(std::move(Args)) {}
+};
+
+/// PrototypeAST - This class represents the "prototype" for a function,
+/// which captures its name, and its argument names (thus implicitly the number
+/// of arguments the function takes).
+class PrototypeAST
+{
+	std::string Name;
+	std::vector<std::string> Args;
+
+public:
+	PrototypeAST(const std::string &name, std::vector<std::string> Args)
+		:Name(name), Args(std::move(Args)) {}
+};
+
+/// FunctionAST - This class represents a function definition itself.
+class FunctionAST
+{
+	std::unique_ptr<PrototypeAST> Proto;
+	std::unique_ptr<ExprAST> Body;
+
+public:
+	FunctionAST(std::unique_ptr<PrototypeAST> Proto,
+		std::unique_ptr<ExprAST> Body)
+		:Proto(std::move(Proto)), Body(std::move(Body)) {}
 };
