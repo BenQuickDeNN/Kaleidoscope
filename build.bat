@@ -1,0 +1,1 @@
+g++ src/kaleidoscope_main.cpp -o bin/kaleidoscope_main.exe -I include
