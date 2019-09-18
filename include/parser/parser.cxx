@@ -7,6 +7,10 @@
 #define LEXER_H
 #endif // !LEXER_H
 
+#ifndef IOSTREAM
+#include <iostream>	// std::count, std::endl
+#define IOSTREAM
+#endif // !IOSTREAM
 #ifndef MAP
 #include <map>
 #define MAP
@@ -15,9 +19,9 @@
 #include <memory>	// unique_ptr
 #define MEMORY
 #endif // !MEMORY_H
-#ifndef STDIO_H
-#include <stdio.h>	// fprintf()
-#define STDIO_H
+#ifndef CSTDIO
+#include <cstdio>	// fprintf()
+#define CSTDIO
 #endif // !STDIO_H
 #ifndef VECTOR
 #include <vector>	// vector
@@ -117,14 +121,15 @@ static std::unique_ptr<ExprAST> ParsePrimary()
 {
 	switch (CurTok)
 	{
-	default:
-		return LogError("unknown token when expecting and expression");
 	case tok_identifier:
 		return ParseIdentifierExpr();
 	case tok_number:
 		return ParseNumberExpr();
 	case '(':
 		return ParseParenExpr();
+	default:
+		//std::cout << "CurTok = " << CurTok << std::endl;
+		return LogError("unknown token when expecting and expression");
 	}
 }
 
@@ -167,7 +172,7 @@ static std::unique_ptr<ExprAST> ParseBinOpRHS(int ExprPrec,
 	// If this is a binop, find its precedence.
 	while (1)
 	{
-		int TokePrec = GetTokPrecedence();
+		int TokPrec = GetTokPrecedence();
 
 		// If this is a binop that binds at least as tightly as the current binop
 		// consume it, otherwise we are done
@@ -186,7 +191,7 @@ static std::unique_ptr<ExprAST> ParseBinOpRHS(int ExprPrec,
 		// 如果下一个token的优先级比当前token的优先级更高，那么就把RHS当做LHS
 		// 优先用右边两个token构造语法树节点
 		int NextPrec = GetTokPrecedence();
-		if (TokePrec < NextPrec)
+		if (TokPrec < NextPrec)
 		{
 			RHS = ParseBinOpRHS(TokPrec + 1, std::move(RHS));
 			if (!RHS)
@@ -217,7 +222,7 @@ static std::unique_ptr<PrototypeAST> ParsePrototype()
 	while (getNextToken() == tok_identifier)
 		ArgNames.push_back(IdentifierStr);
 	if (CurTok != ')')
-		return LogErrorP('Expected ')' in prototype');
+		return LogErrorP("Expected ')' in prototype");
 
 	// success
 	getNextToken();	// eat ')'

@@ -1,11 +1,11 @@
-#include <ctype.h>	// isspace(), isalpha(), isalnum(), isdigit(),
-#include <stdio.h>	// getchar()
-#include <stdlib.h>	// strtod()
+#include <cctype>	// isspace(), isalpha(), isalnum(), isdigit(),
+#include <cstdio>	// getchar()
+#include <cstdlib>	// strtod()
 #include <string>	// string
 
-#define CTYPE_H
-#define STDIO_H
-#define STDLIB_H
+#define CCTYPE
+#define CSTDIO
+#define CSTDLIB
 #define STRING
 
 // the lexer returns tokens [0-255] if it is an unknown character, otherwise one
@@ -29,6 +29,8 @@ static double NumVal;				// Filled in if tok_number
 /// gettok - return the next token from standard input
 static int gettok()
 {
+	// Çå¿ÕIdentifierStr
+	IdentifierStr = "";
 	static int LastChar = ' ';
 	// Skip any whitespace
 	while (isspace(LastChar))

@@ -1,9 +1,13 @@
+#ifndef DRIVER_H
+#include "driver.h"	// MainLoop()
+#define DRIVER_H
+#endif // !DRIVER_H
 #ifndef LEXER_H
 #include "lexer.h"	// gettok()
 #define LEXER_H
 #endif // !LEXER_H
 #ifndef PARSER_H
-#include "parser.h"
+#include "parser.h"	// BinopPrecedence
 #define PARSER_H
 #endif // !PARSER_H
 
@@ -11,14 +15,21 @@
 #include <iostream>	// std::count, std::endl
 #define IOSTREAM
 #endif // !IOSTREAM
+#ifndef CSTDIO
+#include <cstdio>	// fprintf()
+#define CSTDIO
+#endif // !STDIO_H
+
 
 void initialize_binopPrecedence();
+void test_driver();
 void test_lexer();
 
 int main()
 {
 	initialize_binopPrecedence();
-	test_lexer();
+	test_driver();
+	//test_lexer();
 	return 0;
 }
 
@@ -33,6 +44,16 @@ void initialize_binopPrecedence()
 	BinopPrecedence['+'] = 20;
 	BinopPrecedence['-'] = 20;
 	BinopPrecedence['*'] = 40;
+}
+
+void test_driver()
+{
+	// Prime the first token.
+	fprintf(stderr, "ready> ");
+	getNextToken();
+
+	// Run the main "interpreter loop" now
+	MainLoop();
 }
 
 void test_lexer()

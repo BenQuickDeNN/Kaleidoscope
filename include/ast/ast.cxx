@@ -18,7 +18,7 @@ class NumberExprAST :public ExprAST
 {
 	double Val;
 public:
-	NumberExprAST(double Vale) :Val(Val) {}
+	NumberExprAST(double Val) :Val(Val) {}
 };
 
 /// VariableExprAST - Expression class for referencing a variable, like "a".
