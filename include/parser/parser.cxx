@@ -145,8 +145,8 @@ static int GetTokPrecedence()
 		return -1;
 
 	// Make sure it's a declared binop.
-	int TokPrec = BinopPrecedence[CurTok]; // 获取运算符优先级
-	if (TokPrec <= 0) return -1;
+	int TokPrec = BinopPrecedence[CurTok];	// 获取运算符优先级
+	if (TokPrec <= 0) return -1;			// 如果条件是TokPrec < 0 则分析会出问题，需要分析一下
 	return TokPrec;
 }
 
