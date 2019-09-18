@@ -10,7 +10,8 @@
 class ExprAST
 {
 public:
-	virtual ~ExprAST(){}	// 为什么析构函数要虚拟化
+	virtual ~ExprAST(){}			// 为什么析构函数要虚拟化
+	virtual Value *codegen() = 0;	// 定义虚拟的代码生成函数
 };
 
 /// NumberExprAST - Expression class for numeric literals like "1.0".

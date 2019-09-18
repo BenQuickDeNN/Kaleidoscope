@@ -11,10 +11,6 @@
 #define PARSER_H
 #endif // !PARSER_H
 
-#ifndef IOSTREAM
-#include <iostream>	// std::count, std::endl
-#define IOSTREAM
-#endif // !IOSTREAM
 #ifndef CSTDIO
 #include <cstdio>	// fprintf()
 #define CSTDIO
@@ -23,13 +19,11 @@
 
 void initialize_binopPrecedence();
 void test_driver();
-void test_lexer();
 
 int main()
 {
 	initialize_binopPrecedence();
 	test_driver();
-	//test_lexer();
 	return 0;
 }
 
@@ -54,10 +48,4 @@ void test_driver()
 
 	// Run the main "interpreter loop" now
 	MainLoop();
-}
-
-void test_lexer()
-{
-	int tok = gettok();
-	std::cout << "tok = " << tok << ", iden = " << IdentifierStr << ", val = " << NumVal << std::endl;
 }

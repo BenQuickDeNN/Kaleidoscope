@@ -25,6 +25,8 @@ C++中的函数原型就是函数声明，将函数的名字、类型、个数�
 如果函数的返回值为指针形式，用const修饰返回值可使函数返回的值（指针）不能被修改。
 #### auto
 相当于一个“万能类型”。auto a = b; a的类型取决于b。有点像CSharp中的var类型。
+#### LLVM IR
+IR（immediately representation）是LLVM的一种中间代码
 ### utility标准库
 #### std::move（移动）
 a = std::move(b)：将b指向的值赋给a，同时释放b的内存

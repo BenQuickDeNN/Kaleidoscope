@@ -5,13 +5,13 @@ SET build_main_s=build/kaleidoscope_main.s
 SET build_main_o=build/kaleidoscope_main.o
 SET bin_main_e=bin/kaleidoscope_main.exe
 REM Ô¤´¦Àí½×¶Î
-g++ -E %src_main% -o %build_main_i% -I include
+clang++ -E %src_main% -o %build_main_i% -I include
 REM ±àÒë½×¶Î
-g++ -S %build_main_i% -o %build_main_s% -g
+clang++ -S %build_main_i% -o %build_main_s% -g
 REM »ã±à½×¶Î
-g++ -c %build_main_s% -o %build_main_o%
+clang++ -c %build_main_s% -o %build_main_o%
 REM Á´½Ó½×¶Î
-g++ %build_main_o% -o %bin_main_e%
+clang++ %build_main_o% -o %bin_main_e%
 
 REM ±àÒë¹Ù·½´úÂë
 REM g++ src/official_kaleidoscope.cpp -o bin/official_kaleidoscope.exe -I include

@@ -7,10 +7,6 @@
 #define LEXER_H
 #endif // !LEXER_H
 
-#ifndef IOSTREAM
-#include <iostream>	// std::count, std::endl
-#define IOSTREAM
-#endif // !IOSTREAM
 #ifndef MAP
 #include <map>
 #define MAP
@@ -128,7 +124,6 @@ static std::unique_ptr<ExprAST> ParsePrimary()
 	case '(':
 		return ParseParenExpr();
 	default:
-		//std::cout << "CurTok = " << CurTok << std::endl;
 		return LogError("unknown token when expecting and expression");
 	}
 }
