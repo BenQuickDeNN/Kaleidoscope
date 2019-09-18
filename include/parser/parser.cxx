@@ -91,7 +91,7 @@ static std::unique_ptr<ExprAST> ParseIdentifierExpr()
 	std::vector<std::unique_ptr<ExprAST>> Args;
 	if (CurTok != ')')
 	{
-		while (1)
+		while (true)
 		{
 			if (auto Arg = ParseExpression())
 				Args.push_back(std::move(Arg));
@@ -146,7 +146,7 @@ static int GetTokPrecedence()
 
 	// Make sure it's a declared binop.
 	int TokPrec = BinopPrecedence[CurTok]; // 获取运算符优先级
-	if (TokPrec < 0) return -1;
+	if (TokPrec <= 0) return -1;
 	return TokPrec;
 }
 
@@ -170,7 +170,7 @@ static std::unique_ptr<ExprAST> ParseBinOpRHS(int ExprPrec,
 	std::unique_ptr<ExprAST> LHS)
 {
 	// If this is a binop, find its precedence.
-	while (1)
+	while (true)
 	{
 		int TokPrec = GetTokPrecedence();
 
@@ -235,7 +235,8 @@ static std::unique_ptr<FunctionAST> ParseDefinition()
 {
 	getNextToken();		// eat def.
 	auto Proto = ParsePrototype();
-	if (!Proto) return nullptr;
+	if (!Proto) 
+		return nullptr;
 
 	if (auto E = ParseExpression())
 		return std::make_unique<FunctionAST>(std::move(Proto), std::move(E));
@@ -255,7 +256,8 @@ static std::unique_ptr<FunctionAST> ParseTopLevelExpr()
 	if (auto E = ParseExpression())
 	{
 		// Make an anonymous proto.
-		auto Proto = std::make_unique<PrototypeAST>("", std::vector<std::string>());
+		auto Proto = std::make_unique<PrototypeAST>("__anon_expr", // 为什么这里填"__anon_expr"？
+			std::vector<std::string>());
 		return std::make_unique<FunctionAST>(std::move(Proto), std::move(E));
 	}
 	return nullptr;
