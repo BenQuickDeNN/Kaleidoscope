@@ -1,4 +1,4 @@
-LLVM教学跟练代码
+LLVM教学跟练代码，实现Kaleidoscope语言
 
 # 笔记
 ### Prototype for a function（函数原型）
