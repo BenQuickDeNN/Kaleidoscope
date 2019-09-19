@@ -8,23 +8,23 @@
 #endif // !PARSER_H
 
 #ifndef LLVM_ADT_APFLOAT_H
-#include "LLVM/ADT/APFloat.h"
+#include "llvm/ADT/APFloat.h"
 #define LLVM_ADT_APFLOAT_H
 #endif
 #ifndef LLVM_IR_CONSTANTS_H
-#include "LLVM/IR/Constants.h"	// ConstantFP
+#include "llvm/IR/Constants.h"	// ConstantFP
 #define LLVM_IR_CONSTANTS_H
 #endif
 #ifndef LLVM_IR_IRBUILDER_H
-#include "LLVM/IR/IRBuilder.h"	// IRBuilder
+#include "llvm/IR/IRBuilder.h"	// IRBuilder
 #define LLVM_IR_IRBUILDER_H
 #endif // !IRBUILDER_H
 #ifndef LLVM_IR_LLVMCONTEXT_H
-#include "LLVM/IR/LLVMContext.h"	// LLVMContext
+#include "llvm/IR/LLVMContext.h"	// LLVMContext
 #define LLVM_IR_LLVMCONTEXT_H
 #endif // !LLVM_CONTEXT_H
 #ifndef LLVM_IR_VALUE_H
-#include "LLVM/IR/Value.h"	// Value
+#include "llvm/IR/Value.h"	// Value
 #define LLVM_IR_VALUE_H
 #endif
 
@@ -51,3 +51,13 @@ Value *NumberExprAST::codegen()
 {
 	return ConstantFP::get(TheContext, APFloat(Val));
 }
+
+Value *VariableExprAST::codegen()
+{
+	// Lock this variable up in the function
+	Value *V = NamedValues[Name];
+	if (!V)
+		LogErrorV("Unknown variable name");
+	return V;
+}
+

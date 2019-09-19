@@ -1,5 +1,5 @@
 #ifndef LLVM_IR_VALUE_H
-#include "LLVM/IR/Value.h"	// Value
+#include "llvm/IR/Value.h"	// Value
 #define LLVM_IR_VALUE_H
 #endif
 
@@ -40,6 +40,7 @@ class VariableExprAST :public ExprAST
 
 public:
 	VariableExprAST(const std::string &Name) : Name(Name) {}
+	virtual Value *codegen();
 };
 
 /// BinaryExperAST - Expression class for a binary operator
