@@ -35,3 +35,17 @@ a = std::move(b)：将b指向的值赋给a，同时释放b的内存
 ## LLVM
 ### LLVM IR
 IR（immediately representation）是LLVM的一种中间代码
+
+# 遇到的问题
+## error LNK2001
+F:\projects\Cpp\LLVM_tutorial>call clang++ build/kaleidoscope_main.o -o bin/kaleidoscope_main.exe -L lib   && (goto link_succed )  || goto link_failed
+
+kaleidoscope_main.o : error LNK2001: 无法解析的外部符号 "public: virtual class llvm::Value * __cdecl VariableExprAST::codegen(void)" (?codegen@VariableExprAST@@UEAAPEAVValue@llvm@@XZ)
+
+kaleidoscope_main.o : error LNK2001: 无法解析的外部符号 "public: virtual class llvm::Value * __cdecl CallExprAST::codegen(void)" (?codegen@CallExprAST@@UEAAPEAVValue@llvm@@XZ)
+
+kaleidoscope_main.o : error LNK2001: 无法解析的外部符号 "public: virtual class llvm::Value * __cdecl NumberExprAST::codegen(void)" (?codegen@NumberExprAST@@UEAAPEAVValue@llvm@@XZ)
+
+kaleidoscope_main.o : error LNK2001: 无法解析的外部符号 "public: virtual class llvm::Value * __cdecl BinaryExprAST::codegen(void)" (?codegen@BinaryExprAST@@UEAAPEAVValue@llvm@@XZ)
+
+bin/kaleidoscope_main.exe : fatal error LNK1120: 4 个无法解析的外部命令
