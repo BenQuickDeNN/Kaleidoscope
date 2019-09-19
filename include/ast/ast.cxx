@@ -1,10 +1,20 @@
-#include <memory> // unique_ptr
-#include <string> // string
-#include <vector> // vector
+#ifndef LLVM_IR_VALUE_H
+#include "LLVM/IR/Value.h"	// Value
+#define LLVM_IR_VALUE_H
+#endif
 
+#ifndef MEMORY
+#include <memory>	// unique_ptr
 #define MEMORY
+#endif // !MEMORY
+#ifndef STRING
+#include <string>	// string
 #define STRING
+#endif // !STRING
+#ifndef VECTOR
+#include <vector>	// vector
 #define VECTOR
+#endif // !VECTOR
 
 /// ExprAST - Base class for all expression nodes
 class ExprAST
@@ -20,6 +30,7 @@ class NumberExprAST :public ExprAST
 	double Val;
 public:
 	NumberExprAST(double Val) :Val(Val) {}
+	virtual Value *codegen();
 };
 
 /// VariableExprAST - Expression class for referencing a variable, like "a".
