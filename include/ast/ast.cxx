@@ -1,27 +1,19 @@
-#ifndef LLVM_IR_VALUE_H
+#include "llvm/ADT/APFloat.h"
+#include "llvm/IR/Constants.h"	// ConstantFP
+#include "llvm/IR/IRBuilder.h"	// IRBuilder
+#include "llvm/IR/LLVMContext.h"	// LLVMContext
 #include "llvm/IR/Value.h"	// Value
-#define LLVM_IR_VALUE_H
-#endif
 
-#ifndef MEMORY
 #include <memory>	// unique_ptr
-#define MEMORY
-#endif // !MEMORY
-#ifndef STRING
 #include <string>	// string
-#define STRING
-#endif // !STRING
-#ifndef VECTOR
 #include <vector>	// vector
-#define VECTOR
-#endif // !VECTOR
 
 /// ExprAST - Base class for all expression nodes
 class ExprAST
 {
 public:
 	virtual ~ExprAST(){}			// 为什么析构函数要虚拟化
-	virtual Value *codegen() = 0;	// 定义虚拟的代码生成函数
+	virtual llvm::Value *codegen() = 0;	// 定义虚拟的代码生成函数
 };
 
 /// NumberExprAST - Expression class for numeric literals like "1.0".
@@ -30,7 +22,7 @@ class NumberExprAST :public ExprAST
 	double Val;
 public:
 	NumberExprAST(double Val) :Val(Val) {}
-	virtual Value *codegen();
+	virtual llvm::Value *codegen();
 };
 
 /// VariableExprAST - Expression class for referencing a variable, like "a".
@@ -40,7 +32,7 @@ class VariableExprAST :public ExprAST
 
 public:
 	VariableExprAST(const std::string &Name) : Name(Name) {}
-	virtual Value *codegen();
+	virtual llvm::Value *codegen();
 };
 
 /// BinaryExperAST - Expression class for a binary operator
@@ -53,6 +45,7 @@ public:
 	BinaryExprAST(char op, std::unique_ptr<ExprAST> LHS, 
 		std::unique_ptr<ExprAST> RHS)
 		: Op(op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
+	virtual llvm::Value *codegen();
 };
 
 /// CallExprAST - Expression class for function calls.
@@ -65,6 +58,7 @@ public:
 	CallExprAST(const std::string &Callee,
 		std::vector<std::unique_ptr<ExprAST>> Args)
 		: Callee(Callee), Args(std::move(Args)) {}
+	virtual llvm::Value *codegen();
 };
 
 /// PrototypeAST - This class represents the "prototype" for a function,

@@ -4,9 +4,11 @@ SET build_main_i=build/kaleidoscope_main.i
 SET build_main_s=build/kaleidoscope_main.s
 SET build_main_o=build/kaleidoscope_main.o
 SET bin_main_e=bin/kaleidoscope_main.exe
+SET dir_include=include
+SET dir_lib=lib
 
 REM Ô¤´¦Àí½×¶Î
-call clang++ -E %src_main% -o %build_main_i% -I include && (goto prep_succeed) || goto prep_failed
+call clang++ -E %src_main% -o %build_main_i% -I %dir_include% && (goto prep_succeed) || goto prep_failed
 
 :prep_succeed
 REM ±àÒë½×¶Î
@@ -18,7 +20,7 @@ call clang++ -c %build_main_s% -o %build_main_o% && (goto asm_succeed) || goto a
 
 :asm_succeed
 REM Á´½Ó½×¶Î
-call clang++ %build_main_o% -o %bin_main_e% && (goto link_succed) || goto link_failed
+call clang++ %build_main_o% -o %bin_main_e% -L %dir_lib% && (goto link_succed) || goto link_failed
 
 :link_succed
 goto compile_official_code

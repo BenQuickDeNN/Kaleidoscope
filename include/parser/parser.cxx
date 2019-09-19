@@ -1,28 +1,10 @@
-#ifndef AST_H
 #include "ast.h"	// ExprAST
-#define AST_H
-#endif // !AST_H
-#ifndef LEXER_H
 #include "lexer.h"	// gettok()
-#define LEXER_H
-#endif // !LEXER_H
 
-#ifndef MAP
 #include <map>
-#define MAP
-#endif // !MAP
-#ifndef MEMORY
 #include <memory>	// unique_ptr
-#define MEMORY
-#endif // !MEMORY_H
-#ifndef CSTDIO
 #include <cstdio>	// fprintf()
-#define CSTDIO
-#endif // !STDIO_H
-#ifndef VECTOR
 #include <vector>	// vector
-#define VECTOR
-#endif // !VECTOR
 
 
 /// CurTok/getNextToken - Provide a simple token buffer. CurTok is the current

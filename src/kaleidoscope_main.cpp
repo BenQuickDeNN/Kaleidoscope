@@ -1,21 +1,8 @@
-#ifndef DRIVER_H
 #include "driver.h"	// MainLoop()
-#define DRIVER_H
-#endif // !DRIVER_H
-#ifndef LEXER_H
 #include "lexer.h"	// gettok()
-#define LEXER_H
-#endif // !LEXER_H
-#ifndef PARSER_H
 #include "parser.h"	// BinopPrecedence
-#define PARSER_H
-#endif // !PARSER_H
 
-#ifndef CSTDIO
 #include <cstdio>	// fprintf()
-#define CSTDIO
-#endif // !STDIO_H
-
 
 void initialize_binopPrecedence();
 void test_driver();

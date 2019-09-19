@@ -1,17 +1,8 @@
 /* 写一个驱动，来控制parser和lexer */
-#ifndef LEXER_H
 #include "lexer.h"	// tok_eof
-#define LEXER_H
-#endif // !LEXER_H
-#ifndef PARSER_H
 #include "parser.h"	// ParseDefinition(), CurTok, getNextToken()
-#define PARSER_H
-#endif // !PARSER_H
 
-#ifndef CSTDIO
 #include <cstdio>	// fprintf()
-#define CSTDIO
-#endif // !STDIO_H
 
 static void HandleDefinition()
 {
