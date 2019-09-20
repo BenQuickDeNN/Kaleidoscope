@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>Kaleidoscope: src/kaleidoscope.cpp Ê∫êÊñá‰ª∂</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Kaleidoscope
+   &#160;<span id="projectnumber">alpha 1.0</span>
+   </div>
+   <div id="projectbrief">LLVM tutorial source</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Âà∂‰ΩúËÄÖ Doxygen 1.8.11 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>È¶ñÈ°µ</span></a></li>
+      <li><a href="annotated.html"><span>Á±ª</span></a></li>
+      <li class="current"><a href="files.html"><span>Êñá‰ª∂</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Êñá‰ª∂ÂàóË°®</span></a></li>
+      <li><a href="globals.html"><span>Êñá‰ª∂ÊàêÂëò</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">kaleidoscope.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="kaleidoscope_8cpp.html">ÊµèËßàËØ•Êñá‰ª∂ÁöÑÊñáÊ°£.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="driver_8h.html">driver.h</a>&quot;</span> <span class="comment">// MainLoop()</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ir_8h.html">ir.h</a>&quot;</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="lexer_8h.html">lexer.h</a>&quot;</span>  <span class="comment">// gettok()</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="parser_8h.html">parser.h</a>&quot;</span> <span class="comment">// BinopPrecedence</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;cstdio&gt;</span>   <span class="comment">// fprintf()</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordtype">void</span> <a class="code" href="kaleidoscope_8cpp.html#ab6d5bd7f3a9193cb5c0717b16caf7441">initialize_binopPrecedence</a>();</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> <a class="code" href="kaleidoscope_8cpp.html#adcf14c36f14eb680e4e2cd232cb995c9">test_driver</a>();</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div><div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="kaleidoscope_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">   11</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="kaleidoscope_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a>()</div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="kaleidoscope_8cpp.html#ab6d5bd7f3a9193cb5c0717b16caf7441">initialize_binopPrecedence</a>();</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="kaleidoscope_8cpp.html#adcf14c36f14eb680e4e2cd232cb995c9">test_driver</a>();</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">return</span> 0;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div><div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="kaleidoscope_8cpp.html#ab6d5bd7f3a9193cb5c0717b16caf7441">   21</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="kaleidoscope_8cpp.html#ab6d5bd7f3a9193cb5c0717b16caf7441">initialize_binopPrecedence</a>()</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="comment">// Install standard library operator</span></div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="comment">// 1 is the lowest precedence</span></div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    BinopPrecedence[<span class="charliteral">&#39;&lt;&#39;</span>] = 10;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    BinopPrecedence[<span class="charliteral">&#39;+&#39;</span>] = 20;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    BinopPrecedence[<span class="charliteral">&#39;-&#39;</span>] = 20;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    BinopPrecedence[<span class="charliteral">&#39;*&#39;</span>] = 40;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div><div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="kaleidoscope_8cpp.html#adcf14c36f14eb680e4e2cd232cb995c9">   31</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="kaleidoscope_8cpp.html#adcf14c36f14eb680e4e2cd232cb995c9">test_driver</a>()</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">// Prime the first token.</span></div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    fprintf(stderr, <span class="stringliteral">&quot;ready&gt; &quot;</span>);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    getNextToken();</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">// Run the main &quot;interpreter loop&quot; now</span></div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    MainLoop();</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div><div class="ttc" id="driver_8h_html"><div class="ttname"><a href="driver_8h.html">driver.h</a></div></div>
+<div class="ttc" id="kaleidoscope_8cpp_html_ae66f6b31b5ad750f1fe042a706a4e3d4"><div class="ttname"><a href="kaleidoscope_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a></div><div class="ttdeci">int main()</div><div class="ttdef"><b>Definition:</b> <a href="kaleidoscope_8cpp_source.html#l00011">kaleidoscope.cpp:11</a></div></div>
+<div class="ttc" id="parser_8h_html"><div class="ttname"><a href="parser_8h.html">parser.h</a></div></div>
+<div class="ttc" id="kaleidoscope_8cpp_html_adcf14c36f14eb680e4e2cd232cb995c9"><div class="ttname"><a href="kaleidoscope_8cpp.html#adcf14c36f14eb680e4e2cd232cb995c9">test_driver</a></div><div class="ttdeci">void test_driver()</div><div class="ttdef"><b>Definition:</b> <a href="kaleidoscope_8cpp_source.html#l00031">kaleidoscope.cpp:31</a></div></div>
+<div class="ttc" id="lexer_8h_html"><div class="ttname"><a href="lexer_8h.html">lexer.h</a></div></div>
+<div class="ttc" id="kaleidoscope_8cpp_html_ab6d5bd7f3a9193cb5c0717b16caf7441"><div class="ttname"><a href="kaleidoscope_8cpp.html#ab6d5bd7f3a9193cb5c0717b16caf7441">initialize_binopPrecedence</a></div><div class="ttdeci">void initialize_binopPrecedence()</div><div class="ttdoc">≥ı ºªØ∂˛‘™‘ÀÀ„∑˚µƒ”≈œ»º∂ </div><div class="ttdef"><b>Definition:</b> <a href="kaleidoscope_8cpp_source.html#l00021">kaleidoscope.cpp:21</a></div></div>
+<div class="ttc" id="ir_8h_html"><div class="ttname"><a href="ir_8h.html">ir.h</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Âà∂‰ΩúËÄÖ &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.11
+</small></address>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.11"/>
+<title>Kaleidoscope: src/toy.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Kaleidoscope
+   &#160;<span id="projectnumber">alpha 1.0</span>
+   </div>
+   <div id="projectbrief">LLVM tutorial source</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.11 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>首页</span></a></li>
+      <li><a href="annotated.html"><span>类</span></a></li>
+      <li class="current"><a href="files.html"><span>文件</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>文件列表</span></a></li>
+      <li><a href="globals.html"><span>文件成员</span></a></li>
+    </ul>
+  </div>
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#enum-members">枚举</a> &#124;
+<a href="#func-members">函数</a>  </div>
+  <div class="headertitle">
+<div class="title">toy.cpp 文件参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;llvm/ADT/APFloat.h&quot;</code><br />
+<code>#include &quot;llvm/ADT/STLExtras.h&quot;</code><br />
+<code>#include &quot;llvm/IR/BasicBlock.h&quot;</code><br />
+<code>#include &quot;llvm/IR/Constants.h&quot;</code><br />
+<code>#include &quot;llvm/IR/DerivedTypes.h&quot;</code><br />
+<code>#include &quot;llvm/IR/Function.h&quot;</code><br />
+<code>#include &quot;llvm/IR/IRBuilder.h&quot;</code><br />
+<code>#include &quot;llvm/IR/LLVMContext.h&quot;</code><br />
+<code>#include &quot;llvm/IR/Module.h&quot;</code><br />
+<code>#include &quot;llvm/IR/Type.h&quot;</code><br />
+<code>#include &quot;llvm/IR/Verifier.h&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cctype&gt;</code><br />
+<code>#include &lt;cstdio&gt;</code><br />
+<code>#include &lt;cstdlib&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+toy.cpp 的引用(Include)关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="toy_8cpp__incl.png" border="0" usemap="#src_2toy_8cpp" alt=""/></div>
+<map name="src_2toy_8cpp" id="src_2toy_8cpp">
+</map>
+</div>
+</div>
+<p><a href="toy_8cpp_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+枚举</h2></td></tr>
+<tr class="memitem:a6a9e93b081bad7fc74c17306fb168c1f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="toy_8cpp.html#a6a9e93b081bad7fc74c17306fb168c1f">Token</a> { <br />
+&#160;&#160;<a class="el" href="toy_8cpp.html#a6a9e93b081bad7fc74c17306fb168c1fae5d30f8e7869dddee3750decf12bda6c">tok_eof</a> = -1, 
+<a class="el" href="toy_8cpp.html#a6a9e93b081bad7fc74c17306fb168c1fad8eec01ac2f3078b68554618cb55374a">tok_def</a> = -2, 
+<a class="el" href="toy_8cpp.html#a6a9e93b081bad7fc74c17306fb168c1fa470d8c4e5a4401232b70017cfee16ed6">tok_extern</a> = -3, 
+<a class="el" href="toy_8cpp.html#a6a9e93b081bad7fc74c17306fb168c1fa9a47c0370d1465b874244759ef902293">tok_identifier</a> = -4, 
+<br />
+&#160;&#160;<a class="el" href="toy_8cpp.html#a6a9e93b081bad7fc74c17306fb168c1fa77c0a22c1193bded2ad7a09ef6958efd">tok_number</a> = -5, 
+<a class="el" href="lexer_8cxx.html#a6a9e93b081bad7fc74c17306fb168c1fae5d30f8e7869dddee3750decf12bda6c">tok_eof</a> = -1, 
+<a class="el" href="lexer_8cxx.html#a6a9e93b081bad7fc74c17306fb168c1fad8eec01ac2f3078b68554618cb55374a">tok_def</a> = -2, 
+<a class="el" href="lexer_8cxx.html#a6a9e93b081bad7fc74c17306fb168c1fa470d8c4e5a4401232b70017cfee16ed6">tok_extern</a> = -3, 
+<br />
+&#160;&#160;<a class="el" href="lexer_8cxx.html#a6a9e93b081bad7fc74c17306fb168c1fa9a47c0370d1465b874244759ef902293">tok_identifier</a> = -4, 
+<a class="el" href="lexer_8cxx.html#a6a9e93b081bad7fc74c17306fb168c1fa77c0a22c1193bded2ad7a09ef6958efd">tok_number</a> = -5
+<br />
+ }</td></tr>
+<tr class="separator:a6a9e93b081bad7fc74c17306fb168c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+函数</h2></td></tr>
+<tr class="memitem:ad3e96b2c58f8d0b52e66ef0dba604e89"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_expr_a_s_t.html">ExprAST</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="toy_8cpp.html#ad3e96b2c58f8d0b52e66ef0dba604e89">LogError</a> (const char *Str)</td></tr>
+<tr class="memdesc:ad3e96b2c58f8d0b52e66ef0dba604e89"><td class="mdescLeft">&#160;</td><td class="mdescRight">LogError* - These are little helper functions for error handling.  <a href="#ad3e96b2c58f8d0b52e66ef0dba604e89">更多...</a><br /></td></tr>
+<tr class="separator:ad3e96b2c58f8d0b52e66ef0dba604e89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f0d31641cb6e6b6727cf028cd3f40b3"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="class_prototype_a_s_t.html">PrototypeAST</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="toy_8cpp.html#a9f0d31641cb6e6b6727cf028cd3f40b3">LogErrorP</a> (const char *Str)</td></tr>
+<tr class="separator:a9f0d31641cb6e6b6727cf028cd3f40b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace8916425880661308d4b3712b3c778a"><td class="memItemLeft" align="right" valign="top">Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="toy_8cpp.html#ace8916425880661308d4b3712b3c778a">LogErrorV</a> (const char *Str)</td></tr>
+<tr class="separator:ace8916425880661308d4b3712b3c778a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="toy_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">枚举类型说明</h2>
+<a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="toy_8cpp.html#a6a9e93b081bad7fc74c17306fb168c1f">Token</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fae5d30f8e7869dddee3750decf12bda6c"></a>tok_eof&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fad8eec01ac2f3078b68554618cb55374a"></a>tok_def&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fa470d8c4e5a4401232b70017cfee16ed6"></a>tok_extern&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fa9a47c0370d1465b874244759ef902293"></a>tok_identifier&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fa77c0a22c1193bded2ad7a09ef6958efd"></a>tok_number&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fae5d30f8e7869dddee3750decf12bda6c"></a>tok_eof&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fad8eec01ac2f3078b68554618cb55374a"></a>tok_def&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fa470d8c4e5a4401232b70017cfee16ed6"></a>tok_extern&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fa9a47c0370d1465b874244759ef902293"></a>tok_identifier&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a6a9e93b081bad7fc74c17306fb168c1fa77c0a22c1193bded2ad7a09ef6958efd"></a>tok_number&#160;</td><td class="fielddoc">
+</td></tr>
+</table>
+
+<p>在文件 <a class="el" href="toy_8cpp_source.html">toy.cpp</a> 第 <a class="el" href="toy_8cpp_source.html#l00029">29</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">函数说明</h2>
+<a class="anchor" id="ad3e96b2c58f8d0b52e66ef0dba604e89"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="class_expr_a_s_t.html">ExprAST</a>&gt; LogError </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>Str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>LogError* - These are little helper functions for error handling. </p>
+
+<p>在文件 <a class="el" href="toy_8cpp_source.html">toy.cpp</a> 第 <a class="el" href="toy_8cpp_source.html#l00212">212</a> 行定义.</p>
+
+<p><div class="dynheader">
+这是这个函数的调用关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="toy_8cpp_ad3e96b2c58f8d0b52e66ef0dba604e89_icgraph.png" border="0" usemap="#toy_8cpp_ad3e96b2c58f8d0b52e66ef0dba604e89_icgraph" alt=""/></div>
+<map name="toy_8cpp_ad3e96b2c58f8d0b52e66ef0dba604e89_icgraph" id="toy_8cpp_ad3e96b2c58f8d0b52e66ef0dba604e89_icgraph">
+<area shape="rect" id="node2" href="codegen_8cxx.html#ace00ee9432571e9a2ec5e015ac486e7a" title="LogErrorV" alt="" coords="124,5,204,32"/>
+<area shape="rect" id="node3" href="toy_8cpp.html#a9f0d31641cb6e6b6727cf028cd3f40b3" title="LogErrorP" alt="" coords="124,56,204,83"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a9f0d31641cb6e6b6727cf028cd3f40b3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="class_prototype_a_s_t.html">PrototypeAST</a>&gt; LogErrorP </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>Str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>在文件 <a class="el" href="toy_8cpp_source.html">toy.cpp</a> 第 <a class="el" href="toy_8cpp_source.html#l00217">217</a> 行定义.</p>
+
+<p><div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="toy_8cpp_a9f0d31641cb6e6b6727cf028cd3f40b3_cgraph.png" border="0" usemap="#toy_8cpp_a9f0d31641cb6e6b6727cf028cd3f40b3_cgraph" alt=""/></div>
+<map name="toy_8cpp_a9f0d31641cb6e6b6727cf028cd3f40b3_cgraph" id="toy_8cpp_a9f0d31641cb6e6b6727cf028cd3f40b3_cgraph">
+<area shape="rect" id="node2" href="toy_8cpp.html#ad3e96b2c58f8d0b52e66ef0dba604e89" title="LogError* &#45; These are little helper functions for error handling. " alt="" coords="133,5,204,32"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ace8916425880661308d4b3712b3c778a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Value* LogErrorV </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>Str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>在文件 <a class="el" href="toy_8cpp_source.html">toy.cpp</a> 第 <a class="el" href="toy_8cpp_source.html#l00407">407</a> 行定义.</p>
+
+<p><div class="dynheader">
+函数调用图:</div>
+<div class="dyncontent">
+<div class="center"><img src="toy_8cpp_ace8916425880661308d4b3712b3c778a_cgraph.png" border="0" usemap="#toy_8cpp_ace8916425880661308d4b3712b3c778a_cgraph" alt=""/></div>
+<map name="toy_8cpp_ace8916425880661308d4b3712b3c778a_cgraph" id="toy_8cpp_ace8916425880661308d4b3712b3c778a_cgraph">
+<area shape="rect" id="node2" href="toy_8cpp.html#ad3e96b2c58f8d0b52e66ef0dba604e89" title="LogError* &#45; These are little helper functions for error handling. " alt="" coords="133,5,204,32"/>
+</map>
+</div>
+</p>
+
+<p><div class="dynheader">
+这是这个函数的调用关系图:</div>
+<div class="dyncontent">
+<div class="center"><img src="toy_8cpp_ace8916425880661308d4b3712b3c778a_icgraph.png" border="0" usemap="#toy_8cpp_ace8916425880661308d4b3712b3c778a_icgraph" alt=""/></div>
+<map name="toy_8cpp_ace8916425880661308d4b3712b3c778a_icgraph" id="toy_8cpp_ace8916425880661308d4b3712b3c778a_icgraph">
+<area shape="rect" id="node2" href="class_variable_expr_a_s_t.html#ad622beca27fbb72639b7267d031cee93" title="VariableExprAST::codegen" alt="" coords="133,29,312,56"/>
+<area shape="rect" id="node3" href="class_binary_expr_a_s_t.html#a786798e83d939490447e25dcd47a5d5c" title="BinaryExprAST::codegen" alt="" coords="138,104,307,131"/>
+<area shape="rect" id="node4" href="class_call_expr_a_s_t.html#ab7e24cb42a3046b20485e663fe0ed6df" title="CallExprAST::codegen" alt="" coords="145,179,300,205"/>
+</map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>在文件 <a class="el" href="toy_8cpp_source.html">toy.cpp</a> 第 <a class="el" href="toy_8cpp_source.html#l00588">588</a> 行定义.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者 &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.11
+</small></address>
+</body>
+</html>
