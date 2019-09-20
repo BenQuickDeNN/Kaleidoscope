@@ -2,12 +2,15 @@
 #include "parser.h"	// LogError()
 
 #include "llvm/ADT/APFloat.h"	// APFloat
+#include "llvm/IR/BasicBlock.h"	// BasicBlock
 #include "llvm/IR/Constants.h"	// ConstantFP
+#include "llvm/IR/DerivedTypes.h"	// FunctionType
 #include "llvm/IR/Function.h"	// Function
 #include "llvm/IR/IRBuilder.h"	// IRBuilder
 #include "llvm/IR/LLVMContext.h"	// LLVMContext
 #include "llvm/IR/Module.h"	// Module
 #include "llvm/IR/Value.h"	// Value, Type
+#include "llvm/IR/Verifier.h"	// verifyFunction()
 
 #include <map>		// map
 #include <memory>	// unique_ptr
@@ -46,11 +49,11 @@ llvm::Value *BinaryExprAST::codegen()
 	if (!L || !R)
 		return nullptr;
 
-	// ÅÐ¶ÏÔËËã·û
+	// ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	switch (Op)
 	{
 	case '+':
-		return Builder.CreateFAdd(L, R, "addtmp");	// L¡¢R·Ö±ðÊÇ²Ù×÷Êý£¬"addtmp"ÊÇLLVM IRÂð£¿
+		return Builder.CreateFAdd(L, R, "addtmp");	// Lï¿½ï¿½Rï¿½Ö±ï¿½ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"addtmp"ï¿½ï¿½LLVM IRï¿½ï¿½
 	case '-':
 		return Builder.CreateFSub(L, R, "subtmp");
 	case '*':
@@ -84,4 +87,58 @@ llvm::Value *CallExprAST::codegen()
 	}
 
 	return Builder.CreateCall(CalleeF, ArgsV, "calltmp");	// put call IR
+}
+
+llvm::Function *PrototypeAST::codegen()
+{
+	// Make the function type: double(double, double) etc.
+	std::vector<llvm::Type *> Doubles(Args.size(), llvm::Type::getDoubleTy(TheContext));
+	llvm::FunctionType *FT = 
+		llvm::FunctionType::get(llvm::Type::getDoubleTy(TheContext), Doubles, false);
+	
+	llvm::Function *F =
+		llvm::Function::Create(FT, llvm::Function::ExternalLinkage, Name, TheModule.get());
+
+	// Set names for all arguments.
+	unsigned Idx = 0;
+	for (auto &Arg : F->args())
+		Arg.setName(Args[Idx++]);
+
+	return F;
+}
+
+llvm::Function *FunctionAST::codegen()
+{
+	// First, check for an existing function from a previous 'extern' declaration
+	llvm::Function *TheFunction = TheModule->getFunction(Proto->getName());
+
+	if (!TheFunction)
+		TheFunction = Proto->codegen();
+	
+	if (!TheFunction)
+		return nullptr;
+	
+	// Create a new basic block to start insertion into.
+	llvm::BasicBlock *BB = llvm::BasicBlock::Create(TheContext, "entry", TheFunction);
+	Builder.SetInsertPoint(BB);
+
+	// Record the function arguments in the NamedValues map.
+	NamedValues.clear();
+	for (auto &Arg : TheFunction->args())
+		NamedValues[Arg.getName()] = &Arg;
+
+	if (llvm::Value *RetVal = Body->codegen())
+	{
+		// Finish off the function
+		Builder.CreateRet(RetVal);
+
+		// Validate the generated code, checking for consistency
+		llvm::verifyFunction(*TheFunction);
+
+		return TheFunction;
+	}
+	
+	// Error reading body, remove function.
+	TheFunction->eraseFromParent();
+	return nullptr;
 }

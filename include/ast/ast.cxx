@@ -1,6 +1,4 @@
-#include "llvm/ADT/APFloat.h"
-#include "llvm/IR/Constants.h"	// ConstantFP
-#include "llvm/IR/IRBuilder.h"	// IRBuilder
+#include "llvm/IR/Function.h"	// function
 #include "llvm/IR/LLVMContext.h"	// LLVMContext
 #include "llvm/IR/Value.h"	// Value
 
@@ -12,8 +10,8 @@
 class ExprAST
 {
 public:
-	virtual ~ExprAST(){}			// ÎªÊ²Ã´Îö¹¹º¯ÊýÒªÐéÄâ»¯
-	virtual llvm::Value *codegen() = 0;	// ¶¨ÒåÐéÄâµÄ´úÂëÉú³Éº¯Êý
+	virtual ~ExprAST(){}			// ÎªÊ²Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½â»¯
+	virtual llvm::Value *codegen() = 0;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éºï¿½ï¿½ï¿½
 };
 
 /// NumberExprAST - Expression class for numeric literals like "1.0".
@@ -72,6 +70,8 @@ class PrototypeAST
 public:
 	PrototypeAST(const std::string &name, std::vector<std::string> Args)
 		:Name(name), Args(std::move(Args)) {}
+	virtual llvm::Function *codegen();
+	const std::string &getName() const { return Name; }
 };
 
 /// FunctionAST - This class represents a function definition itself.
@@ -81,7 +81,7 @@ class FunctionAST
 	std::unique_ptr<ExprAST> Body;
 
 public:
-	FunctionAST(std::unique_ptr<PrototypeAST> Proto,
-		std::unique_ptr<ExprAST> Body)
+	FunctionAST(std::unique_ptr<PrototypeAST> Proto, std::unique_ptr<ExprAST> Body)
 		:Proto(std::move(Proto)), Body(std::move(Body)) {}
+	virtual llvm::Function *codegen();
 };
