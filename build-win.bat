@@ -1,12 +1,12 @@
 REM g++ src/kaleidoscope_main.cpp -o bin/kaleidoscope_main.exe -I include -g
-SET src_main=src/kaleidoscope_main.cpp
-SET build_main_i=build/kaleidoscope_main.i
-SET build_main_s=build/kaleidoscope_main.s
-SET build_main_o=build/kaleidoscope_main.o
-SET bin_main_e=bin/kaleidoscope_main.exe
+SET src_main=src/kaleidoscope.cpp
+SET build_main_i=build/kaleidoscope.i
+SET build_main_s=build/kaleidoscope.s
+SET build_main_o=build/kaleidoscope.o
+SET bin_main_e=bin/kaleidoscope.exe
 SET dir_include=include
 SET dir_lib=lib
-SET lib_option=`llvm-config --cxxflags --ldflags --system-libs --libs core`
+REM SET lib_option=`llvm-config --cxxflags --ldflags --system-libs --libs core`
 
 REM Ô¤´¦Àí½×¶Î
 call clang++ -O3 -E %src_main% -o %build_main_i% -I %dir_include% && (goto prep_succeed) || goto prep_failed
@@ -21,7 +21,8 @@ call clang++ -c %build_main_s% -o %build_main_o% && (goto asm_succeed) || goto a
 
 :asm_succeed
 REM Á´½Ó½×¶Î
-call clang++ %build_main_o% %lib_option% -o %bin_main_e% -L %dir_lib% && (goto link_succed) || goto link_failed
+call clang++ %build_main_o% `llvm-config --cxxflags --ldflags --system-libs --libs core`
+ -o %bin_main_e% -L %dir_lib% && (goto link_succed) || goto link_failed
 
 :link_succed
 goto compile_official_code

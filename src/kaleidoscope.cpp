@@ -1,4 +1,5 @@
 #include "driver.h"	// MainLoop()
+#include "ir.h"
 #include "lexer.h"	// gettok()
 #include "parser.h"	// BinopPrecedence
 
