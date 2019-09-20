@@ -8,7 +8,7 @@ Implementation of Kaleidoscope Language. See LLVM tutorial <https://llvm.org/doc
 ## C++
 ### nullptr
 
-### Prototype for a function（函数原型）
+### Prototype for a function
 
 ### Function Arguments
 
