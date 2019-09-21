@@ -85,6 +85,6 @@ kaleidoscope_main.o : error LNK2001: 无法解析的外部符号 "public: virtua
 bin/kaleidoscope_main.exe : fatal error LNK1120: 4 个无法解析的外部命令
 
 ### solving LNK2001
-1. Add linking option "`llvm-config --cxxflags --ldflags --system-libs --libs core`" in build files, then it comes the problem "Link error: Cannot find -Ltinfo...".
+1. Add linking option "`llvm-config --cxxflags --ldflags --system-libs --libs core`" in build files, then it comes the error "Link error: Cannot find -Ltinfo...".
 
 2. In Ubuntu 16.04 terminal, use command "sudo apt-get install libtinfo-dev" to install ltinfo. See <https://www.e-learn.cn/content/wangluowenzhang/819973>
