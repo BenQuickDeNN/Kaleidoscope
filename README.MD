@@ -19,7 +19,7 @@ Some scattered small projects to validate the application of LLVM.
 
 加载阶段（执行阶段）：这一步执行可执行文件，在执行过程中加载需要的动态目标文件，"DllImport"在这一阶段发挥作用。
 
-### Constant Folding
+### Constant Folding -- An Optimization Tech
 Folded constant:
 ```
 ready> def test(x) 1+2+x;
@@ -43,6 +43,29 @@ entry:
 ```
 Constant folding, as seen above, in particular, is a very common and very important optimization. It help reduce the number of instructions.
 
+## LLVM
+### Workflow of Compiling
+```mermaid
+graph TD;
+    subgraph Frontend
+        Src("source code")--lexing-->Token["token"]
+        Token--parsing, type checking-->AST["AST(abstract syntax tree)"]
+    end
+    subgraph Backend
+        subgraph LLVM
+            AST--generating intermediate code-->IR["llvm IR(intermediate representation)"]
+            IR--llvm assembling-->BC["llvm bitcode"]
+        end
+        subgraph Machine Compilers
+            AST--generating intermediate code-->ASM["ASM(assembly language)"]
+            ASM--assembling-->MC["machine code"]
+            BC--llc-->ASM
+        end
+    end
+```
+### LLVM IR
+IR（immediately representation）是LLVM的一种中间代码
+
 ## C++用法
 ### nullptr
 空指针
@@ -64,29 +87,6 @@ a = std::move(b)：将b指向的值赋给a，同时释放b的内存
 指针在创建时必须指定指向的对象，并且不同的指针不能指向同一个对象
 ### override
 C++ 11 standard, indicating that a virtual function must be rewritten.
-
-## LLVM
-### Workflow of Compiling (C/C++)
-```mermaid
-graph TD;
-    subgraph Frontend
-        Src("source code")--lexing-->Token["token"]
-        Token--parsing, type checking-->AST["AST(abstract syntax tree)"]
-    end
-    subgraph Backend
-        subgraph LLVM
-            AST--generating intermediate code-->IR["llvm IR(intermediate representation)"]
-            IR--llvm assembling-->BC["llvm bitcode"]
-        end
-        subgraph Machine Compilers
-            AST--generating intermediate code-->ASM["ASM(assembly language)"]
-            ASM--assembling-->MC["machine code"]
-            BC--llc-->ASM
-        end
-    end
-```
-### LLVM IR
-IR（immediately representation）是LLVM的一种中间代码
 
 # Troubleshoot
 ## error LNK2001
