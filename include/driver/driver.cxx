@@ -1,14 +1,22 @@
-/* Ð´Ò»¸öÇý¶¯£¬À´¿ØÖÆparserºÍlexer */
+/* Ð´Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½parserï¿½ï¿½lexer */
 #include "lexer.h"	// tok_eof
 #include "parser.h"	// ParseDefinition(), CurTok, getNextToken()
+
+#include "llvm/Support/raw_ostream.h"	// errs()
 
 #include <cstdio>	// fprintf()
 
 static void HandleDefinition()
 {
-	if (ParseDefinition())
+	if (auto FnAST = ParseDefinition())
 	{
-		fprintf(stderr, "Parsed a function definition.\n");
+		if (auto *FnIR = FnAST->codegen())
+		{
+			//fprintf(stderr, "Parsed a function definition.\n");
+			fprintf(stderr, "Read function definition:");
+			FnIR->print(llvm::errs());
+			fprintf(stderr, "\n");
+		}
 	}
 	else
 	{
@@ -19,9 +27,15 @@ static void HandleDefinition()
 
 static void HandleExtern()
 {
-	if (ParseExtern())
+	if (auto ProtoAST = ParseExtern())
 	{
-		fprintf(stderr, "Parsed an extern\n");
+		if (auto *FnIR = ProtoAST->codegen())
+		{
+			//fprintf(stderr, "Parsed an extern\n");
+			fprintf(stderr, "Read extern: ");
+			FnIR->print(llvm::errs());
+			fprintf(stderr, "\n");
+		}
 	}
 	else
 	{
@@ -33,9 +47,17 @@ static void HandleExtern()
 static void HandleTopLevelExpression()
 {
 	// Evaluate a top-level expression into an anonymous function.
-	if (ParseTopLevelExpr())
+	if (auto FnAST = ParseTopLevelExpr())
 	{
-		fprintf(stderr, "Parsed a top-level expr\n");
+		//fprintf(stderr, "get FnAST in HandleTopLevelExpression()\r\n");
+		if (auto *FnIR = FnAST->codegen())
+		{
+			//fprintf(stderr, "get FnIR in HandleTopLevelExpression\r\n");
+			//fprintf(stderr, "Parsed a top-level expr\n");
+			fprintf(stderr, "Read top-level expression:");
+			FnIR->print(llvm::errs());
+			fprintf(stderr, "\n");
+		}
 	}
 	else
 	{
@@ -52,7 +74,7 @@ static void MainLoop()
 		fprintf(stderr, "ready> ");
 		switch (CurTok)
 		{
-		case tok_eof:	// ÎÄ¼þ½áÊø
+		case tok_eof:	// ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 			return;
 		case ';':		// ignore top-level semicolons.
 			getNextToken();
@@ -67,7 +89,7 @@ static void MainLoop()
 			HandleTopLevelExpression();
 			break;
 		}
-		// Çå¿ÕIdentifierStr
+		// ï¿½ï¿½ï¿½IdentifierStr
 		//IdentifierStr = "";
 	}
 }

@@ -109,14 +109,16 @@ llvm::Function *PrototypeAST::codegen()
 
 llvm::Function *FunctionAST::codegen()
 {
+	//fprintf(stderr, "go into *FunctionAST::codegen\r\n");
 	// First, check for an existing function from a previous 'extern' declaration
 	llvm::Function *TheFunction = TheModule->getFunction(Proto->getName());
-
+	//fprintf(stderr, "get *TheFunction in *FunctionAST::codegen\r\n");
 	if (!TheFunction)
 		TheFunction = Proto->codegen();
 	
 	if (!TheFunction)
 		return nullptr;
+	//fprintf(stderr, "get *TheFunction after !TheFunction in *FunctionAST::codegen\r\n");
 	
 	// Create a new basic block to start insertion into.
 	llvm::BasicBlock *BB = llvm::BasicBlock::Create(TheContext, "entry", TheFunction);

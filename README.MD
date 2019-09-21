@@ -31,6 +31,8 @@ C++中的函数原型就是函数声明，将函数的名字、类型、个数�
 a = std::move(b)：将b指向的值赋给a，同时释放b的内存
 ### memory.std::unique_ptr（唯一指针）
 指针在创建时必须指定指向的对象，并且不同的指针不能指向同一个对象
+### override
+C++ 11 standard, indicating that a virtual function must be rewritten.
 
 ## LLVM
 ### LLVM IR

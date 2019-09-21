@@ -3,6 +3,8 @@
 #include "lexer.h"	// gettok()
 #include "parser.h"	// BinopPrecedence
 
+#include "llvm/Support/raw_ostream.h"	// errs()
+
 #include <cstdio>	// fprintf()
 
 void initialize_binopPrecedence();
@@ -16,7 +18,7 @@ int main()
 }
 
 /**
-* @brief ³õÊ¼»¯¶þÔªÔËËã·ûµÄÓÅÏÈ¼¶
+* @brief ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½
 */
 void initialize_binopPrecedence()
 {
@@ -34,6 +36,12 @@ void test_driver()
 	fprintf(stderr, "ready> ");
 	getNextToken();
 
+	// Make the module, which holds all the code.
+	TheModule = std::make_unique<llvm::Module>("my cool jit", TheContext);
+
 	// Run the main "interpreter loop" now
 	MainLoop();
+
+	// Print out all of the generated code.
+	TheModule->print(llvm::errs(), nullptr);
 }

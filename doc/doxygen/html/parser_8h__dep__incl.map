@@ -1,7 +1,7 @@
-<map id="include/parser.h" name="include/parser.h">
-<area shape="rect" id="node2" href="$kaleidoscope_8cpp.html" title="src/kaleidoscope.cpp" alt="" coords="28,229,173,256"/>
-<area shape="rect" id="node3" href="$driver_8cxx.html" title="include/driver/driver.cxx" alt="" coords="21,80,181,107"/>
-<area shape="rect" id="node5" href="$codegen_8cxx.html" title="include/ir/codegen.cxx" alt="" coords="205,80,357,107"/>
-<area shape="rect" id="node4" href="$driver_8h.html" title="include/driver.h" alt="" coords="45,155,156,181"/>
-<area shape="rect" id="node6" href="$ir_8h.html" title="include/ir.h" alt="" coords="209,155,294,181"/>
+<map id="/home/ben/Projects/Cpp/Kaleidoscope/include/parser.h" name="/home/ben/Projects/Cpp/Kaleidoscope/include/parser.h">
+<area shape="rect" id="node2" href="$kaleidoscope_8cpp.html" title="/home/ben/Projects\l/Cpp/Kaleidoscope/src\l/kaleidoscope.cpp" alt="" coords="53,317,208,373"/>
+<area shape="rect" id="node3" href="$driver_8cxx.html" title="/home/ben/Projects\l/Cpp/Kaleidoscope/include\l/driver/driver.cxx" alt="" coords="42,109,219,165"/>
+<area shape="rect" id="node5" href="$codegen_8cxx.html" title="/home/ben/Projects\l/Cpp/Kaleidoscope/include\l/ir/codegen.cxx" alt="" coords="249,109,426,165"/>
+<area shape="rect" id="node4" href="$driver_8h.html" title="/home/ben/Projects\l/Cpp/Kaleidoscope/include\l/driver.h" alt="" coords="42,213,219,269"/>
+<area shape="rect" id="node6" href="$ir_8h.html" title="/home/ben/Projects\l/Cpp/Kaleidoscope/include/ir.h" alt="" coords="243,221,442,262"/>
 </map>

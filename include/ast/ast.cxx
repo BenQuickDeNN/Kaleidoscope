@@ -10,7 +10,8 @@
 class ExprAST
 {
 public:
-	virtual ~ExprAST(){}			// Ϊʲô��������Ҫ���⻯
+	virtual ~ExprAST() = default;		// Ϊʲô��������Ҫ���⻯
+
 	virtual llvm::Value *codegen() = 0;	// ��������Ĵ������ɺ���
 };
 
@@ -20,7 +21,7 @@ class NumberExprAST :public ExprAST
 	double Val;
 public:
 	NumberExprAST(double Val) :Val(Val) {}
-	virtual llvm::Value *codegen();
+	llvm::Value *codegen() override;	// prompt rewrite the virtual function
 };
 
 /// VariableExprAST - Expression class for referencing a variable, like "a".
@@ -30,7 +31,7 @@ class VariableExprAST :public ExprAST
 
 public:
 	VariableExprAST(const std::string &Name) : Name(Name) {}
-	virtual llvm::Value *codegen();
+	llvm::Value *codegen() override;
 };
 
 /// BinaryExperAST - Expression class for a binary operator
@@ -43,7 +44,7 @@ public:
 	BinaryExprAST(char op, std::unique_ptr<ExprAST> LHS, 
 		std::unique_ptr<ExprAST> RHS)
 		: Op(op), LHS(std::move(LHS)), RHS(std::move(RHS)) {}
-	virtual llvm::Value *codegen();
+	llvm::Value *codegen() override;
 };
 
 /// CallExprAST - Expression class for function calls.
@@ -56,7 +57,7 @@ public:
 	CallExprAST(const std::string &Callee,
 		std::vector<std::unique_ptr<ExprAST>> Args)
 		: Callee(Callee), Args(std::move(Args)) {}
-	virtual llvm::Value *codegen();
+	llvm::Value *codegen() override;
 };
 
 /// PrototypeAST - This class represents the "prototype" for a function,
@@ -68,9 +69,9 @@ class PrototypeAST
 	std::vector<std::string> Args;
 
 public:
-	PrototypeAST(const std::string &name, std::vector<std::string> Args)
-		:Name(name), Args(std::move(Args)) {}
-	virtual llvm::Function *codegen();
+	PrototypeAST(const std::string &Name, std::vector<std::string> Args)
+		:Name(Name), Args(std::move(Args)) {}
+	llvm::Function *codegen();
 	const std::string &getName() const { return Name; }
 };
 
@@ -83,5 +84,5 @@ class FunctionAST
 public:
 	FunctionAST(std::unique_ptr<PrototypeAST> Proto, std::unique_ptr<ExprAST> Body)
 		:Proto(std::move(Proto)), Body(std::move(Body)) {}
-	virtual llvm::Function *codegen();
+	llvm::Function *codegen();
 };

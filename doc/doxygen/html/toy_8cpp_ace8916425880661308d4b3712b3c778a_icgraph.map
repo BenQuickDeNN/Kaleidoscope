@@ -1,5 +1,5 @@
 <map id="LogErrorV" name="LogErrorV">
-<area shape="rect" id="node2" href="$class_variable_expr_a_s_t.html#ad622beca27fbb72639b7267d031cee93" title="VariableExprAST::codegen" alt="" coords="133,29,312,56"/>
-<area shape="rect" id="node3" href="$class_binary_expr_a_s_t.html#a786798e83d939490447e25dcd47a5d5c" title="BinaryExprAST::codegen" alt="" coords="138,104,307,131"/>
-<area shape="rect" id="node4" href="$class_call_expr_a_s_t.html#ab7e24cb42a3046b20485e663fe0ed6df" title="CallExprAST::codegen" alt="" coords="145,179,300,205"/>
+<area shape="rect" id="node2" href="$class_variable_expr_a_s_t.html#a30938e3d7865813d974dec4939187e1e" title="VariableExprAST::codegen" alt="" coords="133,29,312,56"/>
+<area shape="rect" id="node3" href="$class_binary_expr_a_s_t.html#ad55f7c9be59ec02091ba25ab9b7ae1e0" title="BinaryExprAST::codegen" alt="" coords="138,104,307,131"/>
+<area shape="rect" id="node4" href="$class_call_expr_a_s_t.html#aa4ac1ef875467ee11c00fd97dda0e9d7" title="CallExprAST::codegen" alt="" coords="145,179,300,205"/>
 </map>

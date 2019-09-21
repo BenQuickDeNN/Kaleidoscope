@@ -75,13 +75,13 @@ BinaryExprAST 的协作图:</div>
 Public 成员函数</h2></td></tr>
 <tr class="memitem:a6d23be986cb91b292b55ca10f5ef1b74"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_binary_expr_a_s_t.html#a6d23be986cb91b292b55ca10f5ef1b74">BinaryExprAST</a> (char op, std::unique_ptr&lt; <a class="el" href="class_expr_a_s_t.html">ExprAST</a> &gt; LHS, std::unique_ptr&lt; <a class="el" href="class_expr_a_s_t.html">ExprAST</a> &gt; RHS)</td></tr>
 <tr class="separator:a6d23be986cb91b292b55ca10f5ef1b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a786798e83d939490447e25dcd47a5d5c"><td class="memItemLeft" align="right" valign="top">virtual llvm::Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_binary_expr_a_s_t.html#a786798e83d939490447e25dcd47a5d5c">codegen</a> ()</td></tr>
-<tr class="separator:a786798e83d939490447e25dcd47a5d5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad55f7c9be59ec02091ba25ab9b7ae1e0"><td class="memItemLeft" align="right" valign="top">llvm::Value *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_binary_expr_a_s_t.html#ad55f7c9be59ec02091ba25ab9b7ae1e0">codegen</a> () override</td></tr>
+<tr class="separator:ad55f7c9be59ec02091ba25ab9b7ae1e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
 <div class="textblock"><p>BinaryExperAST - Expression class for a binary operator. </p>
 
-<p>在文件 <a class="el" href="ast_8cxx_source.html">ast.cxx</a> 第 <a class="el" href="ast_8cxx_source.html#l00037">37</a> 行定义.</p>
+<p>在文件 <a class="el" href="ast_8cxx_source.html">ast.cxx</a> 第 <a class="el" href="ast_8cxx_source.html#l00038">38</a> 行定义.</p>
 </div><h2 class="groupheader">构造及析构函数说明</h2>
 <a class="anchor" id="a6d23be986cb91b292b55ca10f5ef1b74"></a>
 <div class="memitem">
@@ -121,12 +121,12 @@ Public 成员函数</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>在文件 <a class="el" href="ast_8cxx_source.html">ast.cxx</a> 第 <a class="el" href="ast_8cxx_source.html#l00043">43</a> 行定义.</p>
+<p>在文件 <a class="el" href="ast_8cxx_source.html">ast.cxx</a> 第 <a class="el" href="ast_8cxx_source.html#l00044">44</a> 行定义.</p>
 
 </div>
 </div>
 <h2 class="groupheader">成员函数说明</h2>
-<a class="anchor" id="a786798e83d939490447e25dcd47a5d5c"></a>
+<a class="anchor" id="ad55f7c9be59ec02091ba25ab9b7ae1e0"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -142,7 +142,7 @@ Public 成员函数</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -152,8 +152,8 @@ Public 成员函数</h2></td></tr>
 <p><div class="dynheader">
 函数调用图:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_binary_expr_a_s_t_a786798e83d939490447e25dcd47a5d5c_cgraph.png" border="0" usemap="#class_binary_expr_a_s_t_a786798e83d939490447e25dcd47a5d5c_cgraph" alt=""/></div>
-<map name="class_binary_expr_a_s_t_a786798e83d939490447e25dcd47a5d5c_cgraph" id="class_binary_expr_a_s_t_a786798e83d939490447e25dcd47a5d5c_cgraph">
+<div class="center"><img src="class_binary_expr_a_s_t_ad55f7c9be59ec02091ba25ab9b7ae1e0_cgraph.png" border="0" usemap="#class_binary_expr_a_s_t_ad55f7c9be59ec02091ba25ab9b7ae1e0_cgraph" alt=""/></div>
+<map name="class_binary_expr_a_s_t_ad55f7c9be59ec02091ba25ab9b7ae1e0_cgraph" id="class_binary_expr_a_s_t_ad55f7c9be59ec02091ba25ab9b7ae1e0_cgraph">
 <area shape="rect" id="node2" href="toy_8cpp.html#ace8916425880661308d4b3712b3c778a" title="LogErrorV" alt="" coords="223,29,303,56"/>
 <area shape="rect" id="node3" href="toy_8cpp.html#ad3e96b2c58f8d0b52e66ef0dba604e89" title="LogError* &#45; These are little helper functions for error handling. " alt="" coords="351,29,421,56"/>
 </map>
@@ -163,8 +163,8 @@ Public 成员函数</h2></td></tr>
 <p><div class="dynheader">
 这是这个函数的调用关系图:</div>
 <div class="dyncontent">
-<div class="center"><img src="class_binary_expr_a_s_t_a786798e83d939490447e25dcd47a5d5c_icgraph.png" border="0" usemap="#class_binary_expr_a_s_t_a786798e83d939490447e25dcd47a5d5c_icgraph" alt=""/></div>
-<map name="class_binary_expr_a_s_t_a786798e83d939490447e25dcd47a5d5c_icgraph" id="class_binary_expr_a_s_t_a786798e83d939490447e25dcd47a5d5c_icgraph">
+<div class="center"><img src="class_binary_expr_a_s_t_ad55f7c9be59ec02091ba25ab9b7ae1e0_icgraph.png" border="0" usemap="#class_binary_expr_a_s_t_ad55f7c9be59ec02091ba25ab9b7ae1e0_icgraph" alt=""/></div>
+<map name="class_binary_expr_a_s_t_ad55f7c9be59ec02091ba25ab9b7ae1e0_icgraph" id="class_binary_expr_a_s_t_ad55f7c9be59ec02091ba25ab9b7ae1e0_icgraph">
 </map>
 </div>
 </p>
@@ -172,9 +172,9 @@ Public 成员函数</h2></td></tr>
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>include/ast/<a class="el" href="ast_8cxx_source.html">ast.cxx</a></li>
-<li>src/<a class="el" href="toy_8cpp_source.html">toy.cpp</a></li>
-<li>include/ir/<a class="el" href="codegen_8cxx_source.html">codegen.cxx</a></li>
+<li>/home/ben/Projects/Cpp/Kaleidoscope/include/ast/<a class="el" href="ast_8cxx_source.html">ast.cxx</a></li>
+<li>/home/ben/Projects/Cpp/Kaleidoscope/src/<a class="el" href="toy_8cpp_source.html">toy.cpp</a></li>
+<li>/home/ben/Projects/Cpp/Kaleidoscope/include/ir/<a class="el" href="codegen_8cxx_source.html">codegen.cxx</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
