@@ -1,5 +1,13 @@
 LLVM教学跟练代码，实现Kaleidoscope语言. LLVM tutorial <https://llvm.org/docs/tutorial>.
 
+# Directories Description
+## src
+Main source code to implement Kaleidoscope.
+## include
+Dependence headers, including llvm/llvm-c headers.
+## llvm_test
+Some scattered small projects to validate the application of LLVM.
+
 # 笔记
 
 ## 编译原理
@@ -62,7 +70,7 @@ C++ 11 standard, indicating that a virtual function must be rewritten.
 ### LLVM IR
 IR（immediately representation）是LLVM的一种中间代码
 
-# 遇到的问题
+# Troubleshoot
 ## error LNK2001
 F:\projects\Cpp\LLVM_tutorial>call clang++ build/kaleidoscope_main.o -o bin/kaleidoscope_main.exe -L lib   && (goto link_succed )  || goto link_failed
 
