@@ -9,10 +9,9 @@ Dependence headers, including llvm/llvm-c headers.
 Some scattered small projects to validate the application of LLVM.
 
 # 笔记
-
 ## 编译原理
 ### 编译过程
-预处理阶段：将主文件（编译对象）与引用的文件整合（超级长的C++代码），"#include"在这个阶段发挥作用。
+预处理阶段：将主文件（编译对象）与引用的文件整合（超级长的C++代码），"#include", Optimization(-OX)在这个阶段发挥作用。
 
 编译阶段：将C++代码转换为汇编代码，"-g"选项在这个阶段发挥作用，将符号表嵌入汇编代码中。
 
@@ -67,6 +66,25 @@ a = std::move(b)：将b指向的值赋给a，同时释放b的内存
 C++ 11 standard, indicating that a virtual function must be rewritten.
 
 ## LLVM
+### Workflow of Compiling (C/C++)
+```mermaid
+graph TD;
+    subgraph Frontend
+        Src("source code")--lexing-->Token["token"]
+        Token--parsing, type checking-->AST["AST(abstract syntax tree)"]
+    end
+    subgraph Backend
+        subgraph LLVM
+            AST--generating intermediate code-->IR["llvm IR(intermediate representation)"]
+            IR--llvm assembling-->BC["llvm bitcode"]
+        end
+        subgraph Machine Compilers
+            AST--generating intermediate code-->ASM["ASM(assembly language)"]
+            ASM--assembling-->MC["machine code"]
+            BC--llc-->ASM
+        end
+    end
+```
 ### LLVM IR
 IR（immediately representation）是LLVM的一种中间代码
 
