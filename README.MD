@@ -49,17 +49,19 @@ Constant folding, as seen above, in particular, is a very common and very import
 graph TD;
     subgraph Frontend
         Src("source code")--lexing-->Token["token"]
-        Token--parsing, type checking-->AST["AST(abstract syntax tree)"]
+        Token--parsing-->AST["AST(abstract syntax tree)"]
     end
     subgraph Backend
         subgraph LLVM
             AST--generating intermediate code-->IR["llvm IR(intermediate representation)"]
             IR--llvm assembling-->BC["llvm bitcode"]
+            BC--llvm disassembling-->IR
         end
         subgraph Machine Compilers
             AST--generating intermediate code-->ASM["ASM(assembly language)"]
             ASM--assembling-->MC["machine code"]
-            BC--llc-->ASM
+            MC--disassembling-->ASM
+            BC--llc disassembling-->ASM
         end
     end
 ```

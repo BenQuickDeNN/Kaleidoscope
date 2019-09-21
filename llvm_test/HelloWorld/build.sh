@@ -2,7 +2,7 @@
 CC="clang++"
 DIS="llvm-dis"
 LLC="llc"
-GCC="gcc"
+GCC="g++"
 llvm_bc="HelloWorld.bc"
 llvm_ir="HelloWorld.ir"
 asm="HelloWorld.s"
@@ -14,12 +14,15 @@ OPT="-O3"
 
 # building LLVM bitcode
 $CC $src -c -emit-llvm -o $llvm_bc $OPT
-
-# generating LLVM IR, disasembling
-$DIS $llvm_bc -o $llvm_ir
-
-# building asm file
-$LLC $llvm_ir -o $asm
-
-# building executable file (on Ubuntu)
-$GCC $asm -o $bin
+if [ $? -eq 0 ]; then
+    # generating LLVM IR, disasembling
+    $DIS $llvm_bc -o $llvm_ir
+    if [ $? -eq 0 ]; then
+        # building asm file
+        $LLC $llvm_ir -o $asm
+        if [ $? -eq 0 ]; then
+            # building executable file (on Ubuntu)
+            $GCC $asm -o $bin
+        fi
+    fi
+fi
