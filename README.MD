@@ -12,6 +12,29 @@ LLVM教学跟练代码，实现Kaleidoscope语言. LLVM tutorial <https://llvm.o
 
 加载阶段（执行阶段）：这一步执行可执行文件，在执行过程中加载需要的动态目标文件，"DllImport"在这一阶段发挥作用。
 
+### Constant Folding
+Folded constant:
+```
+ready> def test(x) 1+2+x;
+Read function definition:
+define double @test(double %x) {
+entry:
+        %addtmp = fadd double 3.000000e+00, %x
+        ret double %addtmp
+}
+```
+Unfolded constant:
+```
+ready> def test(x) 1+2+x;
+Read function definition:
+define double @test(double %x) {
+entry:
+        %addtmp = fadd double 2.000000e+00, 1.000000e+00
+        %addtmp1 = fadd double %addtmp, %x
+        ret double %addtmp1
+}
+```
+
 ## C++用法
 ### nullptr
 空指针
