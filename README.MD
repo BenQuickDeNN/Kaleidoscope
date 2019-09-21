@@ -19,8 +19,8 @@ ready> def test(x) 1+2+x;
 Read function definition:
 define double @test(double %x) {
 entry:
-        %addtmp = fadd double 3.000000e+00, %x
-        ret double %addtmp
+    %addtmp = fadd double 3.000000e+00, %x
+    ret double %addtmp
 }
 ```
 Unfolded constant:
@@ -29,11 +29,12 @@ ready> def test(x) 1+2+x;
 Read function definition:
 define double @test(double %x) {
 entry:
-        %addtmp = fadd double 2.000000e+00, 1.000000e+00
-        %addtmp1 = fadd double %addtmp, %x
-        ret double %addtmp1
+    %addtmp = fadd double 2.000000e+00, 1.000000e+00
+    %addtmp1 = fadd double %addtmp, %x
+    ret double %addtmp1
 }
 ```
+Constant folding, as seen above, in particular, is a very common and very important optimization. It help reduce the number of instructions.
 
 ## C++用法
 ### nullptr
