@@ -3,6 +3,7 @@
 #include "lexer.h"	// gettok()
 #include "parser.h"	// BinopPrecedence
 
+#include "llvm/IR/Module.h"	// Module
 #include "llvm/Support/raw_ostream.h"	// errs()
 
 #include <cstdio>	// fprintf()

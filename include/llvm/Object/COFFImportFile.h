@@ -1,9 +1,8 @@
 //===- COFFImportFile.h - COFF short import file implementation -*- C++ -*-===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is distributed under the University of Illinois Open Source
-// License. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 //
@@ -37,12 +36,11 @@ public:
 
   void moveSymbolNext(DataRefImpl &Symb) const override { ++Symb.p; }
 
-  std::error_code printSymbolName(raw_ostream &OS,
-                                  DataRefImpl Symb) const override {
+  Error printSymbolName(raw_ostream &OS, DataRefImpl Symb) const override {
     if (Symb.p == 0)
       OS << "__imp_";
     OS << StringRef(Data.getBufferStart() + sizeof(coff_import_header));
-    return std::error_code();
+    return Error::success();
   }
 
   uint32_t getSymbolFlags(DataRefImpl Symb) const override {

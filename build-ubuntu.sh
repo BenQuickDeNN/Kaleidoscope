@@ -5,6 +5,7 @@ build_main_i="build/kaleidoscope.i"
 build_main_s="build/kaleidoscope.s"
 build_main_o="build/kaleidoscope.o"
 bin_main_e="bin/kaleidoscope"
+include="./include"
 CC="clang++"
 CppSTD="c++17"
 link_option=`llvm-config --cxxflags --ldflags --system-libs --libs core`
@@ -12,7 +13,7 @@ link_option=`llvm-config --cxxflags --ldflags --system-libs --libs core`
 #echo $link_option
 # preprocessing
 echo "start preprocessing..."
-$CC -E $src_main -o $build_main_i -I include -std=$CppSTD -v
+$CC -E $src_main -o $build_main_i -I $include -std=$CppSTD -v
 if [ $? -eq 0 ]; then
 	echo "preprocessing done."
 	# compiling
@@ -27,7 +28,7 @@ if [ $? -eq 0 ]; then
 			echo "assembling done."
 			# linking
 			echo "start linking..."
-			$CC $build_main_o $link_option -o $bin_main_e
+			$CC $build_main_o $link_option -o $bin_main_e -I $include
 			if [ $? -eq 0 ]; then
 				echo "linking done."
 				echo "building success!"

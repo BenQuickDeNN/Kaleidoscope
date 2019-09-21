@@ -1,9 +1,8 @@
 //===------ Core.h -- Core ORC APIs (Layer, JITDylib, etc.) -----*- C++ -*-===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is distributed under the University of Illinois Open Source
-// License. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 //
@@ -175,7 +174,7 @@ public:
   /// Note: The returned flags may have transient flags (Lazy, Materializing)
   /// set. These should be stripped with JITSymbolFlags::stripTransientFlags
   /// before using.
-  const SymbolFlagsMap &getSymbols() { return SymbolFlags; }
+  const SymbolFlagsMap &getSymbols() const { return SymbolFlags; }
 
   /// Returns the names of any symbols covered by this
   /// MaterializationResponsibility object that have queries pending. This
@@ -419,7 +418,7 @@ public:
   ReexportsGenerator(JITDylib &SourceJD, bool MatchNonExported = false,
                      SymbolPredicate Allow = SymbolPredicate());
 
-  SymbolNameSet operator()(JITDylib &JD, const SymbolNameSet &Names);
+  Expected<SymbolNameSet> operator()(JITDylib &JD, const SymbolNameSet &Names);
 
 private:
   JITDylib &SourceJD;
@@ -498,7 +497,7 @@ class JITDylib {
   friend class ExecutionSession;
   friend class MaterializationResponsibility;
 public:
-  using GeneratorFunction = std::function<SymbolNameSet(
+  using GeneratorFunction = std::function<Expected<SymbolNameSet>(
       JITDylib &Parent, const SymbolNameSet &Names)>;
 
   using AsynchronousSymbolQuerySet =
@@ -596,7 +595,7 @@ public:
 
   /// Search the given JITDylib for the symbols in Symbols. If found, store
   ///        the flags for each symbol in Flags. Returns any unresolved symbols.
-  SymbolFlagsMap lookupFlags(const SymbolNameSet &Names);
+  Expected<SymbolFlagsMap> lookupFlags(const SymbolNameSet &Names);
 
   /// Dump current JITDylib state to OS.
   void dump(raw_ostream &OS);
@@ -609,8 +608,8 @@ public:
   /// and the query will not be applied. The Query is not failed and can be
   /// re-used in a subsequent lookup once the symbols have been added, or
   /// manually failed.
-  SymbolNameSet legacyLookup(std::shared_ptr<AsynchronousSymbolQuery> Q,
-                             SymbolNameSet Names);
+  Expected<SymbolNameSet>
+  legacyLookup(std::shared_ptr<AsynchronousSymbolQuery> Q, SymbolNameSet Names);
 
 private:
   using AsynchronousSymbolQueryList =
@@ -642,16 +641,73 @@ private:
     LLVM_MARK_AS_BITMASK_ENUM(NotifyFullyReady)
   };
 
+  enum class SymbolState : uint8_t {
+    Invalid,       // No symbol should be in this state.
+    NeverSearched, // Added to the symbol table, never queried.
+    Materializing, // Queried, materialization begun.
+    Resolved,      // Assigned address, still materializing.
+    Ready = 0x3f   // Ready and safe for clients to access.
+  };
+
+  class SymbolTableEntry {
+  public:
+    SymbolTableEntry() = default;
+    SymbolTableEntry(JITSymbolFlags Flags)
+        : Flags(Flags), State(static_cast<uint8_t>(SymbolState::NeverSearched)),
+          MaterializerAttached(false), PendingRemoval(false) {}
+
+    JITTargetAddress getAddress() const { return Addr; }
+    JITSymbolFlags getFlags() const { return Flags; }
+    SymbolState getState() const { return static_cast<SymbolState>(State); }
+
+    bool isInMaterializationPhase() const {
+      return getState() == SymbolState::Materializing ||
+             getState() == SymbolState::Resolved;
+    }
+
+    bool hasMaterializerAttached() const { return MaterializerAttached; }
+    bool isPendingRemoval() const { return PendingRemoval; }
+
+    void setAddress(JITTargetAddress Addr) { this->Addr = Addr; }
+    void setFlags(JITSymbolFlags Flags) { this->Flags = Flags; }
+    void setState(SymbolState State) {
+      assert(static_cast<uint8_t>(State) < (1 << 6) &&
+             "State does not fit in bitfield");
+      this->State = static_cast<uint8_t>(State);
+    }
+
+    void setMaterializerAttached(bool MaterializerAttached) {
+      this->MaterializerAttached = MaterializerAttached;
+    }
+
+    void setPendingRemoval(bool PendingRemoval) {
+      this->PendingRemoval = PendingRemoval;
+    }
+
+    JITEvaluatedSymbol getSymbol() const {
+      return JITEvaluatedSymbol(Addr, Flags);
+    }
+
+  private:
+    JITTargetAddress Addr = 0;
+    JITSymbolFlags Flags;
+    uint8_t State : 6;
+    uint8_t MaterializerAttached : 1;
+    uint8_t PendingRemoval : 1;
+  };
+
+  using SymbolTable = DenseMap<SymbolStringPtr, SymbolTableEntry>;
+
   JITDylib(ExecutionSession &ES, std::string Name);
 
   Error defineImpl(MaterializationUnit &MU);
 
-  SymbolNameSet lookupFlagsImpl(SymbolFlagsMap &Flags,
-                                const SymbolNameSet &Names);
+  Expected<SymbolNameSet> lookupFlagsImpl(SymbolFlagsMap &Flags,
+                                          const SymbolNameSet &Names);
 
-  void lodgeQuery(std::shared_ptr<AsynchronousSymbolQuery> &Q,
-                  SymbolNameSet &Unresolved, bool MatchNonExported,
-                  MaterializationUnitList &MUs);
+  Error lodgeQuery(std::shared_ptr<AsynchronousSymbolQuery> &Q,
+                   SymbolNameSet &Unresolved, bool MatchNonExported,
+                   MaterializationUnitList &MUs);
 
   void lodgeQueryImpl(std::shared_ptr<AsynchronousSymbolQuery> &Q,
                       SymbolNameSet &Unresolved, bool MatchNonExported,
@@ -686,7 +742,7 @@ private:
 
   ExecutionSession &ES;
   std::string JITDylibName;
-  SymbolMap Symbols;
+  SymbolTable Symbols;
   UnmaterializedInfosMap UnmaterializedInfos;
   MaterializingInfosMap MaterializingInfos;
   GeneratorFunction DefGenerator;
@@ -727,7 +783,15 @@ public:
   /// the ExecutionSession.
   JITDylib &getMainJITDylib();
 
+  /// Return a pointer to the "name" JITDylib.
+  /// Ownership of JITDylib remains within Execution Session
+  JITDylib *getJITDylibByName(StringRef Name);
+
   /// Add a new JITDylib to this ExecutionSession.
+  ///
+  /// The JITDylib Name is required to be unique. Clients should verify that
+  /// names are not being re-used (e.g. by calling getJITDylibByName) if names
+  /// are based on user input.
   JITDylib &createJITDylib(std::string Name,
                            bool AddToMainDylibSearchOrder = true);
 

@@ -10,6 +10,7 @@ Cold,
 Convergent,
 Dereferenceable,
 DereferenceableOrNull,
+ImmArg,
 InAlloca,
 InReg,
 InaccessibleMemOnly,
@@ -74,6 +75,7 @@ static Attribute::AttrKind getAttrKindFromName(StringRef AttrName) {
     .Case("convergent", Attribute::Convergent)
     .Case("dereferenceable", Attribute::Dereferenceable)
     .Case("dereferenceable_or_null", Attribute::DereferenceableOrNull)
+    .Case("immarg", Attribute::ImmArg)
     .Case("inalloca", Attribute::InAlloca)
     .Case("inreg", Attribute::InReg)
     .Case("inaccessiblememonly", Attribute::InaccessibleMemOnly)
@@ -206,6 +208,11 @@ struct DereferenceableAttr : EnumAttr {
 struct DereferenceableOrNullAttr : EnumAttr {
   static enum Attribute::AttrKind getKind() {
     return llvm::Attribute::DereferenceableOrNull;
+  }
+};
+struct ImmArgAttr : EnumAttr {
+  static enum Attribute::AttrKind getKind() {
+    return llvm::Attribute::ImmArg;
   }
 };
 struct InAllocaAttr : EnumAttr {

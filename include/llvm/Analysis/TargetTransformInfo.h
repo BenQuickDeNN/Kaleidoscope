@@ -1,9 +1,8 @@
 //===- TargetTransformInfo.h ------------------------------------*- C++ -*-===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is distributed under the University of Illinois Open Source
-// License. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 /// \file
@@ -81,7 +80,7 @@ public:
   /// API below.
   ///
   /// This is used by targets to construct a TTI wrapping their target-specific
-  /// implementaion that encodes appropriate costs for their target.
+  /// implementation that encodes appropriate costs for their target.
   template <typename T> TargetTransformInfo(T Impl);
 
   /// Construct a baseline TTI object using a minimal implementation of
@@ -209,18 +208,21 @@ public:
   /// This is the most basic query for estimating call cost: it only knows the
   /// function type and (potentially) the number of arguments at the call site.
   /// The latter is only interesting for varargs function types.
-  int getCallCost(FunctionType *FTy, int NumArgs = -1) const;
+  int getCallCost(FunctionType *FTy, int NumArgs = -1,
+                  const User *U = nullptr) const;
 
   /// Estimate the cost of calling a specific function when lowered.
   ///
   /// This overload adds the ability to reason about the particular function
   /// being called in the event it is a library call with special lowering.
-  int getCallCost(const Function *F, int NumArgs = -1) const;
+  int getCallCost(const Function *F, int NumArgs = -1,
+                  const User *U = nullptr) const;
 
   /// Estimate the cost of calling a specific function when lowered.
   ///
   /// This overload allows specifying a set of candidate argument values.
-  int getCallCost(const Function *F, ArrayRef<const Value *> Arguments) const;
+  int getCallCost(const Function *F, ArrayRef<const Value *> Arguments,
+                  const User *U = nullptr) const;
 
   /// \returns A value by which our inlining threshold should be multiplied.
   /// This is primarily used to bump up the inlining threshold wholesale on
@@ -234,13 +236,19 @@ public:
   ///
   /// Mirrors the \c getCallCost method but uses an intrinsic identifier.
   int getIntrinsicCost(Intrinsic::ID IID, Type *RetTy,
-                       ArrayRef<Type *> ParamTys) const;
+                       ArrayRef<Type *> ParamTys,
+                       const User *U = nullptr) const;
 
   /// Estimate the cost of an intrinsic when lowered.
   ///
   /// Mirrors the \c getCallCost method but uses an intrinsic identifier.
   int getIntrinsicCost(Intrinsic::ID IID, Type *RetTy,
-                       ArrayRef<const Value *> Arguments) const;
+                       ArrayRef<const Value *> Arguments,
+                       const User *U = nullptr) const;
+
+  /// \return the expected cost of a memcpy, which could e.g. depend on the
+  /// source/destination type and alignment and the number of bytes copied.
+  int getMemcpyCost(const Instruction *I) const;
 
   /// \return The estimated number of case clusters when lowering \p 'SI'.
   /// \p JTSize Set a jump table size only when \p SI is suitable for a jump
@@ -296,7 +304,7 @@ public:
 
   // Returns true for the target specific
   // set of operations which produce uniform result
-  // even taking non-unform arguments
+  // even taking non-uniform arguments
   bool isAlwaysUniform(const Value *V) const;
 
   /// Returns the address space ID for a target's 'flat' address space. Note
@@ -487,16 +495,24 @@ public:
   /// addressing mode expressions.
   bool shouldFavorPostInc() const;
 
-  /// Return true if the target supports masked load/store
-  /// AVX2 and AVX-512 targets allow masks for consecutive load and store
+  /// Return true if LSR should make efforts to generate indexed addressing
+  /// modes that operate across loop iterations.
+  bool shouldFavorBackedgeIndex(const Loop *L) const;
+
+  /// Return true if the target supports masked load.
   bool isLegalMaskedStore(Type *DataType) const;
+  /// Return true if the target supports masked store.
   bool isLegalMaskedLoad(Type *DataType) const;
 
-  /// Return true if the target supports masked gather/scatter
-  /// AVX-512 fully supports gather and scatter for vectors with 32 and 64
-  /// bits scalar type.
+  /// Return true if the target supports masked scatter.
   bool isLegalMaskedScatter(Type *DataType) const;
+  /// Return true if the target supports masked gather.
   bool isLegalMaskedGather(Type *DataType) const;
+
+  /// Return true if the target supports masked compress store.
+  bool isLegalMaskedCompressStore(Type *DataType) const;
+  /// Return true if the target supports masked expand load.
+  bool isLegalMaskedExpandLoad(Type *DataType) const;
 
   /// Return true if the target has a unified operation to calculate division
   /// and remainder. If so, the additional implicit multiplication and
@@ -700,7 +716,7 @@ public:
   bool shouldMaximizeVectorBandwidth(bool OptSize) const;
 
   /// \return The minimum vectorization factor for types of given element
-  /// bit width, or 0 if there is no mimimum VF. The returned value only
+  /// bit width, or 0 if there is no minimum VF. The returned value only
   /// applies when shouldMaximizeVectorBandwidth returns true.
   unsigned getMinimumVF(unsigned ElemWidth) const;
 
@@ -1035,15 +1051,17 @@ public:
   virtual int getGEPCost(Type *PointeeType, const Value *Ptr,
                          ArrayRef<const Value *> Operands) = 0;
   virtual int getExtCost(const Instruction *I, const Value *Src) = 0;
-  virtual int getCallCost(FunctionType *FTy, int NumArgs) = 0;
-  virtual int getCallCost(const Function *F, int NumArgs) = 0;
+  virtual int getCallCost(FunctionType *FTy, int NumArgs, const User *U) = 0;
+  virtual int getCallCost(const Function *F, int NumArgs, const User *U) = 0;
   virtual int getCallCost(const Function *F,
-                          ArrayRef<const Value *> Arguments) = 0;
+                          ArrayRef<const Value *> Arguments, const User *U) = 0;
   virtual unsigned getInliningThresholdMultiplier() = 0;
   virtual int getIntrinsicCost(Intrinsic::ID IID, Type *RetTy,
-                               ArrayRef<Type *> ParamTys) = 0;
+                               ArrayRef<Type *> ParamTys, const User *U) = 0;
   virtual int getIntrinsicCost(Intrinsic::ID IID, Type *RetTy,
-                               ArrayRef<const Value *> Arguments) = 0;
+                               ArrayRef<const Value *> Arguments,
+                               const User *U) = 0;
+  virtual int getMemcpyCost(const Instruction *I) = 0;
   virtual unsigned getEstimatedNumberOfCaseClusters(const SwitchInst &SI,
                                                     unsigned &JTSize) = 0;
   virtual int
@@ -1066,10 +1084,13 @@ public:
                              TargetTransformInfo::LSRCost &C2) = 0;
   virtual bool canMacroFuseCmp() = 0;
   virtual bool shouldFavorPostInc() const = 0;
+  virtual bool shouldFavorBackedgeIndex(const Loop *L) const = 0;
   virtual bool isLegalMaskedStore(Type *DataType) = 0;
   virtual bool isLegalMaskedLoad(Type *DataType) = 0;
   virtual bool isLegalMaskedScatter(Type *DataType) = 0;
   virtual bool isLegalMaskedGather(Type *DataType) = 0;
+  virtual bool isLegalMaskedCompressStore(Type *DataType) = 0;
+  virtual bool isLegalMaskedExpandLoad(Type *DataType) = 0;
   virtual bool hasDivRemOp(Type *DataType, bool IsSigned) = 0;
   virtual bool hasVolatileVariant(Instruction *I, unsigned AddrSpace) = 0;
   virtual bool prefersVectorizedAddressing() = 0;
@@ -1235,26 +1256,30 @@ public:
   int getExtCost(const Instruction *I, const Value *Src) override {
     return Impl.getExtCost(I, Src);
   }
-  int getCallCost(FunctionType *FTy, int NumArgs) override {
-    return Impl.getCallCost(FTy, NumArgs);
+  int getCallCost(FunctionType *FTy, int NumArgs, const User *U) override {
+    return Impl.getCallCost(FTy, NumArgs, U);
   }
-  int getCallCost(const Function *F, int NumArgs) override {
-    return Impl.getCallCost(F, NumArgs);
+  int getCallCost(const Function *F, int NumArgs, const User *U) override {
+    return Impl.getCallCost(F, NumArgs, U);
   }
   int getCallCost(const Function *F,
-                  ArrayRef<const Value *> Arguments) override {
-    return Impl.getCallCost(F, Arguments);
+                  ArrayRef<const Value *> Arguments, const User *U) override {
+    return Impl.getCallCost(F, Arguments, U);
   }
   unsigned getInliningThresholdMultiplier() override {
     return Impl.getInliningThresholdMultiplier();
   }
   int getIntrinsicCost(Intrinsic::ID IID, Type *RetTy,
-                       ArrayRef<Type *> ParamTys) override {
-    return Impl.getIntrinsicCost(IID, RetTy, ParamTys);
+                       ArrayRef<Type *> ParamTys, const User *U = nullptr) override {
+    return Impl.getIntrinsicCost(IID, RetTy, ParamTys, U);
   }
   int getIntrinsicCost(Intrinsic::ID IID, Type *RetTy,
-                       ArrayRef<const Value *> Arguments) override {
-    return Impl.getIntrinsicCost(IID, RetTy, Arguments);
+                       ArrayRef<const Value *> Arguments,
+                       const User *U = nullptr) override {
+    return Impl.getIntrinsicCost(IID, RetTy, Arguments, U);
+  }
+  int getMemcpyCost(const Instruction *I) override {
+    return Impl.getMemcpyCost(I);
   }
   int getUserCost(const User *U, ArrayRef<const Value *> Operands) override {
     return Impl.getUserCost(U, Operands);
@@ -1302,6 +1327,9 @@ public:
   bool shouldFavorPostInc() const override {
     return Impl.shouldFavorPostInc();
   }
+  bool shouldFavorBackedgeIndex(const Loop *L) const override {
+    return Impl.shouldFavorBackedgeIndex(L);
+  }
   bool isLegalMaskedStore(Type *DataType) override {
     return Impl.isLegalMaskedStore(DataType);
   }
@@ -1313,6 +1341,12 @@ public:
   }
   bool isLegalMaskedGather(Type *DataType) override {
     return Impl.isLegalMaskedGather(DataType);
+  }
+  bool isLegalMaskedCompressStore(Type *DataType) override {
+    return Impl.isLegalMaskedCompressStore(DataType);
+  }
+  bool isLegalMaskedExpandLoad(Type *DataType) override {
+    return Impl.isLegalMaskedExpandLoad(DataType);
   }
   bool hasDivRemOp(Type *DataType, bool IsSigned) override {
     return Impl.hasDivRemOp(DataType, IsSigned);

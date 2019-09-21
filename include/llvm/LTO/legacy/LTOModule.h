@@ -1,9 +1,8 @@
 //===-LTOModule.h - LLVM Link Time Optimizer ------------------------------===//
 //
-//                     The LLVM Compiler Infrastructure
-//
-// This file is distributed under the University of Illinois Open Source
-// License. See LICENSE.TXT for details.
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
 //
@@ -47,6 +46,8 @@ private:
   std::unique_ptr<LLVMContext> OwnedContext;
 
   std::string LinkerOpts;
+
+  std::string DependentLibraries;
 
   std::unique_ptr<Module> Mod;
   MemoryBufferRef MBRef;
@@ -153,6 +154,8 @@ public:
   }
 
   StringRef getLinkerOpts() { return LinkerOpts; }
+
+  StringRef getDependentLibraries() { return DependentLibraries; }
 
   const std::vector<StringRef> &getAsmUndefinedRefs() { return _asm_undefines; }
 
