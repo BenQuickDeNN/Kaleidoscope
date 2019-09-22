@@ -75,6 +75,14 @@ graph TD;
 ### LLVM IR
 IR（immediately representation）是LLVM的一种中间代码
 
+### LLVM Pass
+Pass is an optimization technique that boost performance of IR. In CLI, using opt command to apply pass.
+
+The optimization techniques including:
+1. Constant folding.
+2. Loops folding.
+...
+
 ## C++用法
 ### nullptr
 空指针
