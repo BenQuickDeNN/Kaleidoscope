@@ -1,5 +1,12 @@
 LLVM教学跟练代码，实现Kaleidoscope语言. LLVM tutorial <https://llvm.org/docs/tutorial>.
 
+# Tools Version
+GCC/G++: version Ubuntu 9.1.0
+
+Clang/Clang++: version 9.0.0
+
+LLVM/LLVM-C: 9.0.0
+
 # Directories Description
 ## src
 Main source code to implement Kaleidoscope.
