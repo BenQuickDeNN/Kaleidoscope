@@ -38,7 +38,7 @@ void test_driver()
 	getNextToken();
 
 	// Make the module, which holds all the code.
-	TheModule = std::make_unique<llvm::Module>("my cool jit", TheContext);
+	//TheModule = std::make_unique<llvm::Module>("my cool jit", TheContext);
 
 	// Run the main "interpreter loop" now
 	MainLoop();

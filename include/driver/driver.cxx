@@ -1,10 +1,18 @@
 /* дһ��������������parser��lexer */
+#include "ir.h"	// TheModule, TheContext
 #include "lexer.h"	// tok_eof
 #include "parser.h"	// ParseDefinition(), CurTok, getNextToken()
 
+#include "llvm/IR/Module.h"	// Module
 #include "llvm/Support/raw_ostream.h"	// errs()
 
 #include <cstdio>	// fprintf()
+
+static void InitializeModuleAndPassManager()
+{
+	// Open a new Module
+	TheModule = std::make_unique<llvm::Module>("my cool jit", TheContext);
+}
 
 static void HandleDefinition()
 {

@@ -7,6 +7,7 @@
 #include "llvm/IR/DerivedTypes.h"	// FunctionType
 #include "llvm/IR/Function.h"	// Function
 #include "llvm/IR/IRBuilder.h"	// IRBuilder
+#include "llvm/IR/LegacyPassManager.h"	// FunctionPassManager
 #include "llvm/IR/LLVMContext.h"	// LLVMContext
 #include "llvm/IR/Module.h"	// Module
 #include "llvm/IR/Value.h"	// Value, Type
@@ -21,6 +22,7 @@ static llvm::LLVMContext TheContext;
 static llvm::IRBuilder<> Builder(TheContext);
 static std::unique_ptr<llvm::Module> TheModule;
 static std::map<std::string, llvm::Value *> NamedValues;
+static std::unique_ptr<llvm::legacy::FunctionPassManager> TheFPM;
 
 llvm::Value *LogErrorV(const char *Str)
 {
@@ -136,6 +138,8 @@ llvm::Function *FunctionAST::codegen()
 
 		// Validate the generated code, checking for consistency
 		llvm::verifyFunction(*TheFunction);
+
+		
 
 		return TheFunction;
 	}
