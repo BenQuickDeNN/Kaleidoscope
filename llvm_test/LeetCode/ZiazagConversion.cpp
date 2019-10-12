@@ -14,21 +14,27 @@ public:
         unsigned int iDx = 0;
         unsigned int i;
         unsigned int j;
-        unsigned int k;
         /* i = 0 */
         for (j = 0; j < n; j += cycleLen) 
             ret[iDx++] = s[j];
-        /* 0 < i < numRows - 1 */
-        for (i = 1; i < numRows - 1; i++)
+        /* 0 < i < cycleLen / 2 */
+        for (i = 1; i < cycleLen / 2; i++)
         {
-            for (j = i, k = cycleLen - i; j < n && k < n; j += cycleLen, k += cycleLen) 
+            for (j = cycleLen - i; j < n; j += cycleLen) 
             {
+                ret[iDx++] = s[j - cycleLen + 2 * i];
                 ret[iDx++] = s[j];
-                ret[iDx++] = s[k];
             }
-            for(; j < n; j += cycleLen)
+            for(j = j - cycleLen + 2 * i; j < n; j += cycleLen)
                 ret[iDx++] = s[j];
         }
+        /* cycleLen / 2 <= i < numRows - 1 */
+        for (; i < numRows - 1; i++)
+            for (j = i; j < n; j += cycleLen) 
+            {
+                ret[iDx++] = s[j];
+                ret[iDx++] = s[j + cycleLen - 2 * i];
+            }
         /* i = numRows - 1 */
         for (j = i; j < n; j += cycleLen) 
             ret[iDx++] = s[j];
