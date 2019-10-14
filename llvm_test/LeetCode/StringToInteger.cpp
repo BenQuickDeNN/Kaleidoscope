@@ -13,13 +13,12 @@ public:
         unsigned int endIdx;
         while (str[i] == ' ')
             i++;
-        if (str[i] == '-' || str[i] == '+')
+        if (str[i] == '-')
         {
             i++;
             if (str[i] == '0')
                 while (str[i] == '0')
                     i++;
-        }
             endIdx = i + 9;
             endIdx = endIdx < len ? endIdx : len;
             for (; i < endIdx; i++)
