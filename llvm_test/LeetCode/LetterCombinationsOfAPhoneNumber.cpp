@@ -4,20 +4,37 @@
 using namespace std;
 
 const string letters[] = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-
+inline string getLetterStr(const char& digit)
+{
+    return letters[digit - '0' - 2];
+}
+inline char getLetter(const char& digit, const int& idx)
+{
+    return letters[digit - '0' - 2][idx];
+}
 class Solution {
 public:
     vector<string> letterCombinations(string digits) {
-        vector<string> ret;
-        if (digits.size() == 0)
-            return ret;
-        /* 分配首字母 */
-        for (int i = 0; i < letters[digits[0] - '0' - 2].size(); i++)
-            ret.push_back(letters[digits[0] - '0' - 2][i] + "");
-        for (int i = 1; i < digits.size(); i++)
+        vector<string> res;
+        const int lenDigits = digits.size();
+        if (lenDigits == 0)
+            return res;
+        /* 计算结果所需空间 */
+        int lenRes = 1;
+        int tmpInts[lenDigits];
+        for (int i = lenDigits - 1; i >= 0; i--)
         {
-            for (int j = 0; j < letters[digits[i] - '0' - 2].size(); j++)
+            tmpInts[i] = lenRes;
+            lenRes *= getLetterStr(digits[i]).size();
         }
-        return ret;
+        /* 设置字符串内容 */
+        for (int i = 0; i < lenRes; i++)
+        {
+            string tmpStr(lenDigits, '@');
+            res.push_back(tmpStr);
+            for (int j = 0; j < lenDigits; j++)
+                res[i][j] = getLetter(digits[j], ((i / tmpInts[j]) % getLetterStr(digits[j]).size()));
+        }
+        return res;
     }
 };
