@@ -6,7 +6,7 @@ class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
         int n;
-        if ((n = nums.size()))
+        if (!(n = nums.size()))
             return 0;
         int* p = &nums[0];
         nums.clear();
