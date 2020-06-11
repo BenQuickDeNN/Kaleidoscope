@@ -140,6 +140,26 @@ The Module class represents the top level structure present in LLVM programs. An
 
 Module类表示LLVM程序中存在的顶级结构。LLVM模块实际上是原始程序的翻译单元，或者是链接器合并的几个翻译单元的组合。Module类跟踪函数列表、全局变量列表和符号表。此外，它还包含一些有用的成员函数，这些函数试图简化常见操作。
 
+A Module instance is used to store all the information related to an LLVM module. Modules are the top level container of all other LLVM
+Intermediate Representation (IR) objects. Each module directly contains a list of globals variables, a list of functions, a list of libraries (or other modules) this module depends on, a symbol table, and various data about the target's characteristics.
+
+A module maintains a GlobalValRefMap object that is used to hold all
+constant references to global variables in the module. When a global
+variable is destroyed, it should have no entries in the GlobalValueRefMap. The main container class for the LLVM Intermediate Representation.
+
+模块实例用于存储与LLVM模块。模块是所有其他LLVM的顶级容器中间表示（IR）对象。每个模块直接包含全局变量列表、函数列表、此模块所依赖的库（或其他模块）列表、符号表和有关目标特性的各种数据。
+
+模块维护用于保存所有对模块中全局变量的常量引用。当一个全球性的变量已销毁，它在GlobalValueRefMap中不应有任何条目。LLVM中间表示的主容器类。
+
+#### Value
+It is the base class of all values computed by a program that may be used as operands to other values. Value is the super class of other important classes such as Instruction and Function. All Values have a Type. Type is not a subclass of Value. Some values can have a name and they belong to some Module. Setting the name on the Value automatically updates the module's symbol table.
+
+Every value has a "use list" that keeps track of which other Values are using this Value. A Value can also have an arbitrary number of ValueHandle objects that watch it and listen to RAUW and Destroy events. See llvm/IR/ValueHandle.h for details.
+
+它是由程序计算的所有值的基类，可以用作其他值的操作数。值是其他重要类（如指令类和函数类）的超类。所有值都有一个类型。类型不是值的子类。有些值可以有一个名称，它们属于某个模块。在值上设置名称会自动更新模块的符号表。
+
+每个值都有一个“使用列表”，用于跟踪其他哪些值正在使用此值。一个值也可以有任意数量的ValueHandle对象，这些对象监视它并监听RAUW和Destroy事件。有关详细信息，请参见llvm/IR/ValueHandle.h。
+
 ## C++用法
 ### nullptr
 空指针
